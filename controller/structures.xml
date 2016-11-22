@@ -1,0 +1,11 @@
+<?xml version="1.0" encoding="utf-8"?>
+<!DOCTYPE structures SYSTEM "../doc/structures.dtd">
+<structures>
+	<structure id="taoBlueprints_main" name="Blueprints extension" level="15" group="main">
+		<description />
+		<sections>
+			<section id="taoBlueprints_main" name="Blueprints extension" url="/taoBlueprints/TaoBlueprints/index" />
+			<!--<section id="taoBlueprints_other" name="Template" url="/taoBlueprints/TaoBlueprints/templateExample" />-->
+		</sections>
+	</structure>
+</structures>
