@@ -27,7 +27,7 @@ return array(
     'label' => 'Blueprints extension',
     'description' => 'Extension to manage blue prints',
     'license' => 'GPL-2.0',
-    'version' => '0.0.1',
+    'version' => '0.1.0',
     'author' => 'Open Assessment Technologies SA',
     'requires' => array(
         'tao' => '>=7.29.0'
@@ -37,9 +37,16 @@ return array(
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#taoBlueprintsManager', array('ext'=>'taoBlueprints')),
     ),
     'install' => array(
+        'rdf' => array(
+            dirname(__FILE__) . '/install/ontology/blueprints.rdf',
+        ),
+        'php' => array(
+            \oat\taoBlueprints\scripts\install\InitBlueprintsFilesystem::class,
+        )
     ),
     'uninstall' => array(
     ),
+    'update' => \oat\taoBlueprints\scripts\update\Updater::class,
     'routes' => array(
         '/taoBlueprints' => 'oat\\taoBlueprints\\controller'
     ),    
