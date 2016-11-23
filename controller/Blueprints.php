@@ -20,13 +20,14 @@
  */
 
 namespace oat\taoBlueprints\controller;
+
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoBlueprints\model\Service;
 
 /**
  * Blueprints controller
  *
- * @author Open Assessment Technologies SA
+ * @author Camille Moyon
  * @package taoBlueprints
  * @license GPL-2.0
  *
@@ -122,37 +123,61 @@ class Blueprints extends \tao_actions_RdfController
     }
 
     /**
-     * A possible entry point to tao
+     * Display form and
+     * If form is submitted, save blueprints resource & blueprints matrix
      */
-    public function index()
+    public function editInstance()
     {
-        $properties = $this->getBlueprintsService()->getNonLiteralItemProperties();
+        $clazz = $this->getCurrentClass();
+        $instance = $this->getCurrentInstance();
 
-        foreach ($properties as $uri => $label) {
-            $matrixByProperty[] = $this->getBlueprintsService()->getMatrixByProperty($uri);
+        $myFormContainer = new \tao_actions_form_Instance($clazz, $instance);
+        $myForm = $myFormContainer->getForm();
+
+        if ($myForm->isSubmited()) {
+            if ($myForm->isValid()) {
+
+                $values = $myForm->getValues();
+                // save properties
+                $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($instance);
+                $instance = $binder->bind($values);
+//                $this->getClassService()->save($instance, $targetProperty, $matrix);
+                $message = __('Instance saved');
+
+                $this->setData('message',$message);
+                $this->setData('reload', true);
+
+            }
         }
 
-        echo '<pre>';
-        var_dump($matrixByProperty);
-        echo '</pre>';
+        $targetProperty = $this->getClassService()->getBlueprintsTargetProperty($instance);
+        $matrix = $this->getClassService()->getBlueprintsMatrix($instance);
 
-        $this->setData('blueprintsProperties', $properties);
-        $this->setData('message', 'Extension to manage tao blue prints');
-        $this->setView('taoBlueprints/templateExample.tpl');
+        $this->setData('formTitle', __('Edit Instance'));
+        $this->setData('myForm', $myForm->render());
+        $this->setView('form.tpl', 'tao');
     }
 
-    public function getBlueprintsValuesByProperty()
+    /**
+     * Get all eligible target properties for blueprints
+     */
+    public function getTargetProperties()
     {
-
+        $this->returnJson(array('targetProperties' => $this->getClassService()->getNonLiteralItemProperties()));
     }
 
-    protected function getBlueprintsService()
+    /**
+     * Get property matrix for a target property
+     *
+     * @throws \common_Exception
+     */
+    public function getMatrixByTargetProperty()
     {
-        if (! $this->service) {
-            $this->service = Service::singleton();
-            $this->getServiceManager()->propagate($this->service);
+        if ($this->hasRequestParameter('uri')) {
+            throw new \common_Exception(__('To get matrix of selections, an uri is requried.'));
         }
-        return $this->service;
+        $matrix = $this->getClassService()->getMatrixByTargetProperty($this->getRequestParameter('uri'));
+        $this->returnJson(array('matrix' => $matrix));
     }
 
 }

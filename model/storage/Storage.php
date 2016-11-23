@@ -21,31 +21,36 @@
 
 namespace oat\taoBlueprints\model\storage;
 
-use oat\oatbox\service\ConfigurableService;
+use oat\oatbox\filesystem\File;
 
-abstract class Storage extends ConfigurableService
+/**
+ * Interface Storage
+ *
+ * @author Camille Moyon
+ * @package oat\taoBlueprints\model\storage
+ */
+interface Storage
 {
-    const SERVICE_ID = 'taoBlueprints/storage';
+    /**
+     * Return the content of a File
+     * Should return a php array
+     *
+     * @param File $file
+     * @return array
+     */
+    public function read(File $file);
 
-    const OPTION_FILESYSTEM = 'filesystem';
+    /**
+     * Return the default filename (with extension)
+     *
+     * @return string
+     */
+    public function getDefaultFileName();
 
-    protected $storage;
-
-    public function __construct(array $options)
-    {
-        parent::__construct($options);
-        if (! $this->hasOption(self::OPTION_FILESYSTEM)) {
-            throw new \common_Exception('Blue prints storage is not correctly configured. Missing filesystem key.');
-        }
-    }
-
-    protected function getStorage()
-    {
-        if (! $this->storage) {
-            $this->storage = $this->getServiceManager()
-                ->get(self::SERVICE_ID)
-                ->getOption(self::OPTION_FILESYSTEM);
-        }
-        return $this->storage;
-    }
+    /**
+     * Get default content for a blueprints file
+     *
+     * @return string
+     */
+    public function getDefaultContent();
 }

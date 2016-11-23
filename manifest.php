@@ -24,7 +24,7 @@
  */
 return array(
     'name' => 'taoBlueprints',
-    'label' => 'Blueprints extension',
+    'label' => 'Blueprints',
     'description' => 'Extension to manage blue prints',
     'license' => 'GPL-2.0',
     'version' => '0.1.0',

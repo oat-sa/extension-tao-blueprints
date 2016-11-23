@@ -21,13 +21,52 @@
 
 namespace oat\taoBlueprints\model\storage\implementation;
 
-use oat\taoBlueprints\model\storage\Storage;
+use oat\oatbox\filesystem\File;
+use oat\taoBlueprints\model\storage\FileStorage;
 
-class JsonStorage extends Storage
+/**
+ * Class JsonStorage
+ *
+ * @author Camille Moyon
+ * @package oat\taoBlueprints\model\storage\implementation
+ */
+class JsonStorage extends FileStorage
 {
-    public function getFileByIdentifier()
+    /**
+     * Read file & json decode content
+     *
+     * @param File $file
+     * @return mixed
+     */
+    public function read(File $file)
     {
-
+        return json_decode($file->read());
     }
 
+    /**
+     * Get the default content for a blueprints file
+     *
+     * @return string
+     */
+    public function getDefaultContent()
+    {
+        return json_encode(
+            array(
+                'version' => '0.1.0',
+                'property' => '',
+                'selection' => []
+            ),
+            JSON_PRETTY_PRINT
+        );
+    }
+
+    /**
+     * Get default blueprints filename
+     *
+     * @return string
+     */
+    public function getDefaultFileName()
+    {
+        return 'blueprints.json';
+    }
 }

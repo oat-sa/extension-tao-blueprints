@@ -9,7 +9,7 @@
 					<tree name="Blueprints library"
 						  className="Blueprints"
 						  dataUrl="/taoBlueprints/Blueprints/getOntologyData"
-						  rootNode="http://www.tao.lu/Ontologies/TAOBlueprints.rdf#Blueprints"
+						  rootNode="http://www.taotesting.com/ontologies/blueprints.rdf#Blueprints"
 						  selectClass="blueprints-class-properties"
 						  selectInstance="blueprints-properties"
 					/>
