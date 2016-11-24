@@ -40,7 +40,7 @@ class JsonStorage extends FileStorage
     public function getContent(\core_kernel_classes_Resource $blueprints)
     {
         $content = parent::getContent($blueprints);
-        return json_decode($content);
+        return json_decode($content, true);
     }
 
     /**
