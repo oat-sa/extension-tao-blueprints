@@ -31,14 +31,34 @@ use oat\oatbox\filesystem\File;
  */
 interface Storage
 {
+    const SERVICE_ID = 'taoBlueprints/storage';
+
+    const OPTION_FILESYSTEM = 'filesystem';
+
     /**
-     * Return the content of a File
+     * Create a blueprints file with default content
+     *
+     * @param \core_kernel_classes_Resource $blueprints
+     * @return mixed
+     */
+    public function createEmptyContent(\core_kernel_classes_Resource $blueprints);
+
+    /**
+     * Return the content associated to the given blueprints
      * Should return a php array
      *
-     * @param File $file
+     * @param \core_kernel_classes_Resource $blueprints
      * @return array
      */
-    public function read(File $file);
+    public function getContent(\core_kernel_classes_Resource $blueprints);
+
+    /**
+     * Delete a content for a given blueprints
+     *
+     * @param \core_kernel_classes_Resource $blueprints
+     * @return mixed
+     */
+    public function deleteContent(\core_kernel_classes_Resource $blueprints);
 
     /**
      * Return the default filename (with extension)

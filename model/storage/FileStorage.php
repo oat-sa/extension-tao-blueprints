@@ -37,10 +37,6 @@ abstract class FileStorage extends ConfigurableService implements Storage
 {
     use OntologyAwareTrait;
 
-    const SERVICE_ID = 'taoBlueprints/storage';
-
-    const OPTION_FILESYSTEM = 'filesystem';
-
     /**
      * Blueprints directory
      *
@@ -101,7 +97,7 @@ abstract class FileStorage extends ConfigurableService implements Storage
             \common_Logger::i(__('Unable to find associate content for this blueprints.'));
             return [];
         }
-        return (array) $this->read($file);
+        return $file->read();
     }
 
     /**

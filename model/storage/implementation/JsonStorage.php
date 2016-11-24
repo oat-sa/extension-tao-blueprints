@@ -21,7 +21,6 @@
 
 namespace oat\taoBlueprints\model\storage\implementation;
 
-use oat\oatbox\filesystem\File;
 use oat\taoBlueprints\model\storage\FileStorage;
 
 /**
@@ -35,12 +34,13 @@ class JsonStorage extends FileStorage
     /**
      * Read file & json decode content
      *
-     * @param File $file
+     * @param \core_kernel_classes_Resource $blueprints
      * @return mixed
      */
-    public function read(File $file)
+    public function getContent(\core_kernel_classes_Resource $blueprints)
     {
-        return json_decode($file->read());
+        $content = parent::getContent($blueprints);
+        return json_decode($content);
     }
 
     /**

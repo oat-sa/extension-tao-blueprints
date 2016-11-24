@@ -24,6 +24,7 @@ namespace oat\taoBlueprints\model;
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoBlueprints\model\storage\FileStorage;
+use oat\taoBlueprints\model\storage\Storage;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
@@ -221,12 +222,12 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
     /**
      * Get the service to handle blueprints files
      *
-     * @return FileStorage
+     * @return Storage
      */
     protected function getFileStorage()
     {
         if (! $this->fileStorage) {
-            $this->fileStorage = $this->getServiceManager()->get(FileStorage::SERVICE_ID);
+            $this->fileStorage = $this->getServiceManager()->get(Storage::SERVICE_ID);
         }
         return $this->fileStorage;
     }
