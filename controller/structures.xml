@@ -36,9 +36,6 @@
 					<action id="blueprint-move" name="Move" url="/taoBlueprints/Blueprints/moveInstance" context="instance" group="none" binding="moveNode">
 						<icon id="icon-move-item"/>
 					</action>
-					<action id="blueprint-duplicate" name="Duplicate" url="/taoBlueprints/Blueprints/cloneInstance" context="instance" group="tree" binding="duplicateNode">
-						<icon id="icon-copy"/>
-					</action>
 				</actions>
 			</section>
 		</sections>

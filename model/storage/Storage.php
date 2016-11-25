@@ -51,6 +51,14 @@ interface Storage
     public function getContent(\core_kernel_classes_Resource $blueprint);
 
     /**
+     * Check if a blueprints has an ontology content
+     *
+     * @param \core_kernel_classes_Resource $blueprint
+     * @return bool
+     */
+    public function hasContent(\core_kernel_classes_Resource $blueprint);
+
+    /**
      * Delete a content for a given blueprint
      *
      * @param \core_kernel_classes_Resource $blueprint

@@ -81,6 +81,8 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
 
     /**
      * Search all properties with item domain and not literal
+     *
+     * @return \core_kernel_classes_Property[]
      */
     public function getNonLiteralItemProperties()
     {
