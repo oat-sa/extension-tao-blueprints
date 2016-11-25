@@ -1,0 +1,44 @@
+@import "inc/bootstrap";
+
+.distributor {
+    position: relative;
+    overflow: hidden;
+    @include simple-border;
+    height: 100%;
+
+   .row {
+        height: 40px;
+        @include flex-container;
+
+        & > .label {
+            @include simple-flex-box;
+            padding: 10px;
+        }
+        & > .count {
+            @include simple-flex-box(100px);
+            padding: 10px;
+        }
+    }
+    header {
+        background-color: $uiHeaderBg;
+    }
+    ul {
+        padding: 0;
+        margin: 0;
+        overflow-y: auto;
+        list-style-type: none;
+        height: calc(100% - 40px);
+
+        .row {
+            &:nth-child(even){
+                background-color: white;
+            }
+            &:nth-child(odd){
+                background-color: lighten($lightBlueGrey,5)
+            }
+            & > .count {
+                padding: 5px 10px;
+            }
+        }
+    }
+}
