@@ -1,6 +1,6 @@
 {
 
-    "name": "oat/taoBlueprints",
+    "name": "oat-sa/extension-tao-blueprints",
     "description" : "Extension to manage blue prints",
     "type" : "tao-extension",
     "authors" : [
@@ -27,5 +27,5 @@
         "psr-4" : {
             "oat\\taoBlueprints\\" : ""
         }
-    } 
+    }
 }
