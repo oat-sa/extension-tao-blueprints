@@ -47,24 +47,24 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
     protected $listService;
 
     /**
-     * Service to handle blueprints files
+     * Service to handle blueprint files
      *
      * @var FileStorage
      */
     protected $fileStorage;
 
     /**
-     * Get blueprints root class
+     * Get blueprint root class
      *
      * @return \core_kernel_classes_Class
      */
     public function getRootClass()
     {
-        return $this->getClass('http://www.taotesting.com/ontologies/blueprints.rdf#Blueprints');
+        return $this->getClass('http://www.taotesting.com/ontologies/blueprint.rdf#Blueprint');
     }
 
     /**
-     * Create an instance for blueprints & set default content file
+     * Create an instance for blueprint & set default content file
      *
      * @param \core_kernel_classes_Class $clazz
      * @param string $label
@@ -73,7 +73,9 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
     public function createInstance(\core_kernel_classes_Class $clazz, $label = '')
     {
         $instance = parent::createInstance($clazz, $label);
-        $this->getFileStorage()->createEmptyContent($instance);
+        if (! $this->getFileStorage()->hasContent($instance)) {
+            $this->getFileStorage()->createEmptyContent($instance);
+        }
         return $instance;
     }
 
@@ -82,6 +84,11 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
      */
     public function getNonLiteralItemProperties()
     {
+        /** @var \core_kernel_classes_Resource[] $toDelete */
+        $toDelete = $this->getRootClass()->getInstances(true);
+        foreach ($toDelete as $delete) {
+//            $delete->delete(true);
+        }
         $properties = [];
 
         /** @var ComplexSearchService $search */
@@ -105,17 +112,17 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
     }
 
     /**
-     * Get selection matrix associated to a blueprints
+     * Get selection matrix associated to a blueprint
      *
      * @param $uri
      * @return mixed
      */
-    public function getBlueprintsMatrix($uri)
+    public function getBlueprintMatrix($uri)
     {
         $content = $this->getFileStorage()->getContent($this->getResource($uri));
 
         if (! array_key_exists('selection', $content)) {
-            \common_Logger::i(__('Blueprints found, but it\'s not correctly formed. Selection key missing.'));
+            \common_Logger::i(__('Blueprint found, but it\'s not correctly formed. Selection key missing.'));
             return [];
         }
 
@@ -127,17 +134,17 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
     }
 
     /**
-     * Get the target property associated to a blueprints
+     * Get the target property associated to a blueprint
      *
      * @param $uri
      * @return \core_kernel_classes_Property
      */
-    public function getBlueprintsTargetProperty($uri)
+    public function getBlueprintTargetProperty($uri)
     {
         $content = $this->getFileStorage()->getContent($this->getResource($uri));
 
         if (! array_key_exists('property', $content)) {
-            \common_Logger::i(__('Blueprints found, but it\'s not correctly formed. Property key missing.'));
+            \common_Logger::i(__('Blueprint found, but it\'s not correctly formed. Property key missing.'));
             return null;
         }
 
@@ -176,7 +183,7 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
     }
 
     /**
-     * Delete a blueprints & associated storage
+     * Delete a blueprint & associated storage
      *
      * @param \core_kernel_classes_Resource $resource
      * @return bool
@@ -196,14 +203,14 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
     protected function getSelectionValue($uri)
     {
         try {
-            $blueprintsValue = $this->getResource($uri)->getUniquePropertyValue(
-                $this->getProperty('http://www.tao.lu/Ontologies/TAOBlueprints.rdf#BlueprintsValue')
+            $blueprintValue = $this->getResource($uri)->getUniquePropertyValue(
+                $this->getProperty('http://www.tao.lu/Ontologies/TAOBlueprint.rdf#BlueprintValue')
             );
-        } catch (\common_exception_EmptyProperty $e) {
+        } catch (\core_kernel_classes_EmptyProperty $e) {
             return 0;
         }
 
-        return (int) $blueprintsValue->literal;
+        return (int) $blueprintValue->literal;
     }
 
     /**
@@ -220,7 +227,7 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
     }
 
     /**
-     * Get the service to handle blueprints files
+     * Get the service to handle blueprint files
      *
      * @return Storage
      */

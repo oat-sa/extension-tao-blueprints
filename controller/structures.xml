@@ -1,42 +1,42 @@
 <?xml version="1.0" encoding="utf-8"?>
 <!DOCTYPE structures SYSTEM "../doc/structures.dtd">
 <structures>
-	<structure id="taoBlueprints_main" name="Blueprints extension" level="15" group="main">
+	<structure id="taoBlueprints_main" name="Blueprints" level="15" group="main">
 		<description />
 		<sections>
-			<section id="taoBlueprints_main" name="Blueprints extension" url="/taoBlueprints/Blueprints/index">
+			<section id="taoBlueprints_main" name="Blueprint" url="/taoBlueprints/Blueprints/index">
 				<trees>
 					<tree name="Blueprints library"
-						  className="Blueprints"
+						  className="Blueprint"
 						  dataUrl="/taoBlueprints/Blueprints/getOntologyData"
-						  rootNode="http://www.taotesting.com/ontologies/blueprints.rdf#Blueprints"
-						  selectClass="blueprints-class-properties"
-						  selectInstance="blueprints-properties"
+						  rootNode="http://www.taotesting.com/ontologies/blueprint.rdf#Blueprint"
+						  selectClass="blueprint-class-properties"
+						  selectInstance="blueprint-properties"
 					/>
 				</trees>
 				<actions allowClassActions="true">
-					<action id="blueprints-new" name="New blueprints" url="/taoBlueprints/Blueprints/create" context="resource" group="tree" binding="instanciate">
+					<action id="blueprint-new" name="New blueprint" url="/taoBlueprints/Blueprints/create" context="resource" group="tree" binding="instanciate">
 						<icon id="icon-item"/>
 					</action>
-					<action id="blueprints-class-properties" name="Properties" url="/taoBlueprints/Blueprints/editBlueprintsClass" group="content" context="class">
+					<action id="blueprint-class-properties" name="Properties" url="/taoBlueprints/Blueprints/editBlueprintClass" group="content" context="class">
 						<icon id="icon-edit"/>
 					</action>
-					<action id="blueprints-properties" name="Properties"  url="/taoBlueprints/Blueprints/editInstance" group="content" context="instance">
+					<action id="blueprint-properties" name="Properties"  url="/taoBlueprints/Blueprints/editInstance" group="content" context="instance">
 						<icon id="icon-edit"/>
 					</action>
-					<action id="blueprints-class-new" name="New class" url="/taoBlueprints/Blueprints/addSubClass" context="resource" group="tree" binding="subClass">
+					<action id="blueprint-class-new" name="New class" url="/taoBlueprints/Blueprints/addSubClass" context="resource" group="tree" binding="subClass">
 						<icon id="icon-folder-open"/>
 					</action>
-					<action id="blueprints-delete" name="Delete" url="/taoBlueprints/Blueprints/delete" context="instance" group="tree" binding="removeNode" >
+					<action id="blueprint-delete" name="Delete" url="/taoBlueprints/Blueprints/delete" context="instance" group="tree" binding="removeNode" >
 						<icon id="icon-bin"/>
 					</action>
-					<action id="blueprints-class-delete" name="Delete" url="/taoBlueprints/Blueprints/deleteClass" context="class" group="tree" binding="removeNode" >
+					<action id="blueprint-class-delete" name="Delete" url="/taoBlueprints/Blueprints/deleteClass" context="class" group="tree" binding="removeNode" >
 						<icon id="icon-bin"/>
 					</action>
-					<action id="blueprints-move" name="Move" url="/taoBlueprints/Blueprints/moveInstance" context="instance" group="none" binding="moveNode">
+					<action id="blueprint-move" name="Move" url="/taoBlueprints/Blueprints/moveInstance" context="instance" group="none" binding="moveNode">
 						<icon id="icon-move-item"/>
 					</action>
-					<action id="blueprints-duplicate" name="Duplicate" url="/taoBlueprints/Blueprints/cloneInstance" context="instance" group="tree" binding="duplicateNode">
+					<action id="blueprint-duplicate" name="Duplicate" url="/taoBlueprints/Blueprints/cloneInstance" context="instance" group="tree" binding="duplicateNode">
 						<icon id="icon-copy"/>
 					</action>
 				</actions>

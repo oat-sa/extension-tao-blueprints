@@ -41,7 +41,7 @@ return array(
             dirname(__FILE__) . '/install/ontology/blueprints.rdf',
         ),
         'php' => array(
-            \oat\taoBlueprints\scripts\install\InitBlueprintsFilesystem::class,
+            \oat\taoBlueprints\scripts\install\InitBlueprintFilesystem::class,
         )
     ),
     'uninstall' => array(

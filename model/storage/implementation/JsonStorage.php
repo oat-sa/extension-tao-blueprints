@@ -34,17 +34,17 @@ class JsonStorage extends FileStorage
     /**
      * Read file & json decode content
      *
-     * @param \core_kernel_classes_Resource $blueprints
+     * @param \core_kernel_classes_Resource $blueprint
      * @return mixed
      */
-    public function getContent(\core_kernel_classes_Resource $blueprints)
+    public function getContent(\core_kernel_classes_Resource $blueprint)
     {
-        $content = parent::getContent($blueprints);
+        $content = parent::getContent($blueprint);
         return json_decode($content, true);
     }
 
     /**
-     * Get the default content for a blueprints file
+     * Get the default content for a blueprint file
      *
      * @return string
      */
@@ -61,12 +61,12 @@ class JsonStorage extends FileStorage
     }
 
     /**
-     * Get default blueprints filename
+     * Get default blueprint filename
      *
      * @return string
      */
     public function getDefaultFileName()
     {
-        return 'blueprints.json';
+        return 'blueprint.json';
     }
 }

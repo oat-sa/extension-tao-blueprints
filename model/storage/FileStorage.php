@@ -38,7 +38,7 @@ abstract class FileStorage extends ConfigurableService implements Storage
     use OntologyAwareTrait;
 
     /**
-     * Blueprints directory
+     * Blueprint directory
      *
      * @var Directory
      */
@@ -67,48 +67,48 @@ abstract class FileStorage extends ConfigurableService implements Storage
     }
 
     /**
-     * Create an empty content for a given blueprints
-     * Set content proerty of blueprints
+     * Create an empty content for a given blueprint
+     * Set content property of blueprint
      *
-     * @param \core_kernel_classes_Resource $blueprints
+     * @param \core_kernel_classes_Resource $blueprint
      * @return bool
      */
-    public function createEmptyContent(\core_kernel_classes_Resource $blueprints)
+    public function createEmptyContent(\core_kernel_classes_Resource $blueprint)
     {
-        $file = $this->getFile($blueprints);
-        $blueprints->setPropertyValue(
-            $this->getProperty('http://www.taotesting.com/ontologies/blueprints.rdf#content'),
+        $file = $this->getFile($blueprint);
+        $blueprint->setPropertyValue(
+            $this->getProperty('http://www.taotesting.com/ontologies/blueprint.rdf#content'),
             $this->getFileSerializer()->serialize($file)
         );
         return $file->write($this->getDefaultContent());
     }
 
     /**
-     * Get a blueprints file content
+     * Get a blueprint file content
      *
-     * @param \core_kernel_classes_Resource $blueprints
+     * @param \core_kernel_classes_Resource $blueprint
      * @return array
      * @throws \common_exception_NotFound
      */
-    public function getContent(\core_kernel_classes_Resource $blueprints)
+    public function getContent(\core_kernel_classes_Resource $blueprint)
     {
-        $file = $this->getFile($blueprints);
+        $file = $this->getFile($blueprint);
         if (! $file->exists()) {
-            \common_Logger::i(__('Unable to find associate content for this blueprints.'));
+            \common_Logger::i(__('Unable to find associate content for this blueprint.'));
             return [];
         }
         return $file->read();
     }
 
     /**
-     * Delete a blueprints content by removing file & ontology reference
+     * Delete a blueprint content by removing file & ontology reference
      *
-     * @param \core_kernel_classes_Resource $blueprints
+     * @param \core_kernel_classes_Resource $blueprint
      * @return bool
      */
-    public function deleteContent(\core_kernel_classes_Resource $blueprints)
+    public function deleteContent(\core_kernel_classes_Resource $blueprint)
     {
-        $file = $this->getFile($blueprints);
+        $file = $this->getFile($blueprint);
         $this->getFileSerializer()->cleanUp($this->getFileSerializer()->serialize($file));
         if ($file->exists()) {
             return $file->delete();
@@ -117,35 +117,52 @@ abstract class FileStorage extends ConfigurableService implements Storage
     }
 
     /**
-     * Get the file associated to a blueprints
+     * Check if blueprint have an associated ontology content
      *
-     * @param \core_kernel_classes_Resource $blueprints
-     * @return \oat\oatbox\filesystem\File
+     * @param \core_kernel_classes_Resource $blueprint
+     * @return bool
      */
-    protected function getFile(\core_kernel_classes_Resource $blueprints)
+    public function hasContent(\core_kernel_classes_Resource $blueprint)
     {
-        $contentProperty = $this->getProperty('http://www.taotesting.com/ontologies/blueprints.rdf#content');
+        $contentProperty = $this->getProperty('http://www.taotesting.com/ontologies/blueprint.rdf#content');
         try {
-            $contentSerial = $blueprints->getUniquePropertyValue($contentProperty)->getUri();
-            return $this->getFileSerializer()->unserializeFile($contentSerial);
-        } catch (\common_exception_EmptyProperty $e) {
-            return $this->getStorage()->getFile($this->getDefaultFilePath($blueprints) . '/' . $this->getDefaultFileName());
+            $blueprint->getUniquePropertyValue($contentProperty);
+            return true;
+        } catch (\core_kernel_classes_EmptyProperty $e) {
+            return false;
         }
     }
 
     /**
-     * Get the default file path for blueprints contents
+     * Get the file associated to a blueprint
      *
-     * @param \core_kernel_classes_Resource $blueprints
+     * @param \core_kernel_classes_Resource $blueprint
+     * @return \oat\oatbox\filesystem\File
+     */
+    protected function getFile(\core_kernel_classes_Resource $blueprint)
+    {
+        $contentProperty = $this->getProperty('http://www.taotesting.com/ontologies/blueprint.rdf#content');
+        try {
+            $contentSerial = $blueprint->getUniquePropertyValue($contentProperty)->getUri();
+            return $this->getFileSerializer()->unserializeFile($contentSerial);
+        } catch (\core_kernel_classes_EmptyProperty $e) {
+            return $this->getStorage()->getFile($this->getDefaultFilePath($blueprint) . '/' . $this->getDefaultFileName());
+        }
+    }
+
+    /**
+     * Get the default file path for blueprint contents
+     *
+     * @param \core_kernel_classes_Resource $blueprint
      * @return string
      */
-    protected function getDefaultFilePath(\core_kernel_classes_Resource $blueprints)
+    protected function getDefaultFilePath(\core_kernel_classes_Resource $blueprint)
     {
-        return \tao_helpers_Uri::getUniqueId($blueprints->getUri());
+        return \tao_helpers_Uri::getUniqueId($blueprint->getUri());
     }
     
     /**
-     * Get the blueprints directory
+     * Get the blueprint directory
      *
      * @return Directory
      */

@@ -7,50 +7,50 @@
         xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
         xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#"
 >
-    <!-- Class to represent test blueprints -->
+    <!-- Class to represent test blueprint -->
     <!-- Contains identifer, title & content to store additional info -->
-    <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprints.rdf#Blueprints">
-        <rdfs:label xml:lang="en-US"><![CDATA[Blueprints]]></rdfs:label>
-        <rdfs:comment xml:lang="en-US"><![CDATA[Blueprints constraints.]]></rdfs:comment>
+    <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#Blueprint">
+        <rdfs:label xml:lang="en-US"><![CDATA[Blueprint]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Blueprint constraints.]]></rdfs:comment>
         <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
     </rdf:Description>
 
-    <!-- Blueprints identifier -->
+    <!-- Blueprint identifier -->
     <!-- Not required -->
     <!-- Not language dependent -->
-    <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprints.rdf#identifier">
+    <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#identifier">
         <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-        <rdfs:label xml:lang="en-US"><![CDATA[Blueprints identifier]]></rdfs:label>
-        <rdfs:comment xml:lang="en-US"><![CDATA[Blueprints identifier]]></rdfs:comment>
-        <rdfs:domain rdf:resource="http://www.taotesting.com/ontologies/blueprints.rdf#Blueprints"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Identifier]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Blueprint identifier]]></rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.taotesting.com/ontologies/blueprint.rdf#Blueprint"/>
         <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
         <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
         <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
         <tao:TAOGUIOrder><![CDATA[1]]></tao:TAOGUIOrder>
     </rdf:Description>
 
-    <!-- Blueprints title -->
+    <!-- Blueprint title -->
     <!-- Not required -->
     <!-- Language dependent -->
-    <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprints.rdf#title">
+    <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#title">
         <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-        <rdfs:label xml:lang="en-US"><![CDATA[Blueprints title]]></rdfs:label>
-        <rdfs:comment xml:lang="en-US"><![CDATA[Blueprints title]]></rdfs:comment>
-        <rdfs:domain rdf:resource="http://www.taotesting.com/ontologies/blueprints.rdf#Blueprints"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Title]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Blueprint title]]></rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.taotesting.com/ontologies/blueprint.rdf#Blueprint"/>
         <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
         <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True"/>
         <widget:widget rdf:resource="http://www.tao.lu/datatypes/WidgetDefinitions.rdf#TextBox"/>
         <tao:TAOGUIOrder><![CDATA[2]]></tao:TAOGUIOrder>
     </rdf:Description>
 
-    <!-- Blueprints content -->
+    <!-- Blueprint content -->
     <!-- Not visible by GUI -->
     <!-- Language dependent -->
-    <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprints.rdf#content">
+    <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#content">
         <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
-        <rdfs:label xml:lang="en-US"><![CDATA[Blueprints Content]]></rdfs:label>
-        <rdfs:comment xml:lang="en-US"><![CDATA[Blueprints Content]]></rdfs:comment>
-        <rdfs:domain rdf:resource="http://www.taotesting.com/ontologies/blueprints.rdf#Blueprints"/>
+        <rdfs:label xml:lang="en-US"><![CDATA[Content]]></rdfs:label>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Blueprint Content]]></rdfs:comment>
+        <rdfs:domain rdf:resource="http://www.taotesting.com/ontologies/blueprint.rdf#Blueprint"/>
         <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#Literal"/>
         <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True"/>
         <tao:TAOGUIOrder><![CDATA[3]]></tao:TAOGUIOrder>

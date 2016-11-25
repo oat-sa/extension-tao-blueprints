@@ -47,7 +47,7 @@ class Blueprints extends \tao_actions_RdfController
     }
 
     /**
-     * Get the root class of blueprints
+     * Get the root class of blueprint
      *
      * @return \core_kernel_classes_Class
      */
@@ -57,7 +57,7 @@ class Blueprints extends \tao_actions_RdfController
     }
 
     /**
-     * Create a new instance of blueprints class with unique label
+     * Create a new instance of blueprint class with unique label
      *
      * @throws \Exception
      */
@@ -90,11 +90,11 @@ class Blueprints extends \tao_actions_RdfController
     }
 
     /**
-     * Edit a blueprints class
+     * Edit a blueprint class
      * - Return form if form is not submitted
      * - Valid & Create instance if form is submitted
      */
-    public function editBlueprintsClass()
+    public function editBlueprintClass()
     {
         $clazz = $this->getClass($this->getRequestParameter('id'));
 
@@ -117,14 +117,14 @@ class Blueprints extends \tao_actions_RdfController
         } else {
             $myForm->setActions(array());
         }
-        $this->setData('formTitle', __('Edit blueprints class'));
+        $this->setData('formTitle', __('Edit blueprint class'));
         $this->setData('myForm', $myForm->render());
         $this->setView('form.tpl', 'tao');
     }
 
     /**
      * Display form and
-     * If form is submitted, save blueprints resource & blueprints matrix
+     * If form is submitted, save blueprint resource & blueprint matrix
      */
     public function editInstance()
     {
@@ -150,8 +150,8 @@ class Blueprints extends \tao_actions_RdfController
             }
         }
 
-        $targetProperty = $this->getClassService()->getBlueprintsTargetProperty($instance);
-        $matrix = $this->getClassService()->getBlueprintsMatrix($instance);
+        $targetProperty = $this->getClassService()->getBlueprintTargetProperty($instance);
+        $matrix = $this->getClassService()->getBlueprintMatrix($instance);
 
         $this->setData('formTitle', __('Edit Instance'));
         $this->setData('myForm', $myForm->render());
@@ -159,7 +159,7 @@ class Blueprints extends \tao_actions_RdfController
     }
 
     /**
-     * Get all eligible target properties for blueprints
+     * Get all eligible target properties for blueprint
      */
     public function getTargetProperties()
     {

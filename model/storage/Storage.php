@@ -21,8 +21,6 @@
 
 namespace oat\taoBlueprints\model\storage;
 
-use oat\oatbox\filesystem\File;
-
 /**
  * Interface Storage
  *
@@ -36,29 +34,29 @@ interface Storage
     const OPTION_FILESYSTEM = 'filesystem';
 
     /**
-     * Create a blueprints file with default content
+     * Create a blueprint file with default content
      *
-     * @param \core_kernel_classes_Resource $blueprints
+     * @param \core_kernel_classes_Resource $blueprint
      * @return mixed
      */
-    public function createEmptyContent(\core_kernel_classes_Resource $blueprints);
+    public function createEmptyContent(\core_kernel_classes_Resource $blueprint);
 
     /**
-     * Return the content associated to the given blueprints
+     * Return the content associated to the given blueprint
      * Should return a php array
      *
-     * @param \core_kernel_classes_Resource $blueprints
+     * @param \core_kernel_classes_Resource $blueprint
      * @return array
      */
-    public function getContent(\core_kernel_classes_Resource $blueprints);
+    public function getContent(\core_kernel_classes_Resource $blueprint);
 
     /**
-     * Delete a content for a given blueprints
+     * Delete a content for a given blueprint
      *
-     * @param \core_kernel_classes_Resource $blueprints
+     * @param \core_kernel_classes_Resource $blueprint
      * @return mixed
      */
-    public function deleteContent(\core_kernel_classes_Resource $blueprints);
+    public function deleteContent(\core_kernel_classes_Resource $blueprint);
 
     /**
      * Return the default filename (with extension)
@@ -68,7 +66,7 @@ interface Storage
     public function getDefaultFileName();
 
     /**
-     * Get default content for a blueprints file
+     * Get default content for a blueprint file
      *
      * @return string
      */

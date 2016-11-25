@@ -21,7 +21,7 @@
 namespace oat\taoBlueprints\scripts\update;
 
 use oat\tao\scripts\update\OntologyUpdater;
-use oat\taoBlueprints\scripts\install\InitBlueprintsFilesystem;
+use oat\taoBlueprints\scripts\install\InitBlueprintFilesystem;
 
 class Updater extends \common_ext_ExtensionUpdater
 {
@@ -33,11 +33,11 @@ class Updater extends \common_ext_ExtensionUpdater
 
             OntologyUpdater::syncModels();
 
-            $initBlueprintsFilesystem = new InitBlueprintsFilesystem();
-            $initBlueprintsFilesystem->setServiceLocator($this->getServiceManager());
-            $initBlueprintsFilesystem([]);
+            $initBlueprintFilesystem = new InitBlueprintFilesystem();
+            $initBlueprintFilesystem->setServiceLocator($this->getServiceManager());
+            $initBlueprintFilesystem([]);
 
-            $this->setVersion('0.1.0');
+//            $this->setVersion('0.1.0');
         }
     }
 }
