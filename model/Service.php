@@ -84,11 +84,6 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
      */
     public function getNonLiteralItemProperties()
     {
-        /** @var \core_kernel_classes_Resource[] $toDelete */
-        $toDelete = $this->getRootClass()->getInstances(true);
-        foreach ($toDelete as $delete) {
-//            $delete->delete(true);
-        }
         $properties = [];
 
         /** @var ComplexSearchService $search */
