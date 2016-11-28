@@ -18,6 +18,7 @@
 
 /**
  * Test the Blueprint Editor's distributor component
+ *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
 define([
@@ -68,57 +69,60 @@ define([
     });
 
     QUnit.cases([
+        { name : 'getValues', title : 'getValues' }
     ])
     .test('spec ', function(data, assert) {
         var instance = distributorComponent();
         assert.equal(typeof instance[data.name], 'function', 'The distributorComponent instance exposes a "' + data.title + '" function');
     });
 
-    /*
-    QUnit.test('Missing parameters', function(assert){
-        QUnit.expect(1);
-
-        assert.throws(distributorComponent, TypeError, 'Ids must be defined');
-    });
 
     QUnit.module('Behavior');
-
 
     QUnit.asyncTest('DOM rendering', function(assert) {
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(6);
+        QUnit.expect(12);
 
-        distributorComponent( $container, ids )
+        distributorComponent( $container, { data : samples } )
             .on('render', function(){
+                var $element = $('.distributor', $container);
 
-                assert.equal($('.search', $container).length, 1, 'The container has the component root element');
-                assert.ok($('.search', $container).hasClass('rendered'), 1, 'The component root element has the rendered class');
-                assert.equal($('.search select', $container).length, 1, 'The component has a select element');
-                assert.equal($('.search input[type=search]', $container).length, 1, 'The component has a search input element');
-                assert.equal($('.search button', $container).length, 1, 'The component has a button');
+                assert.equal($element.length, 1, 'The container has the component root element');
+                assert.ok($element.hasClass('rendered'), 1, 'The component root element has the rendered class');
 
-                assert.deepEqual($('.search', $container)[0], this.getElement()[0], 'The component element is correct');
+                assert.equal($('header', $element).length, 1, 'The component has an header element');
+                assert.equal($('ul', $element).length, 1, 'The component has an list element');
+                assert.equal($('ul li', $element).length, 5, 'The component has the correct number of items');
+
+                assert.equal($('ul li:first-child', $element).data('uri'),  'http://www.my-tao.com#federalStateRegulation', 'The item has the correct URI');
+                assert.equal($('ul li:first-child .label', $element).length, 1, 'The item has a label element');
+                assert.equal($('ul li:first-child .label', $element).text(), 'Federal & State Regulation', 'The item has the correct label');
+
+                assert.equal($('ul li:first-child .count', $element).length, 1, 'The item has a count element');
+                assert.equal($('ul li:first-child .count input', $element).length, 1, 'The item has an input element');
+                assert.equal($('ul li:first-child .count input', $element).val(), '4', 'The item input has the correct value');
+
+                assert.deepEqual($element[0], this.getElement()[0], 'The element is the one bound to the component');
 
                 QUnit.start();
             });
     });
-
 
     QUnit.asyncTest('mounting lifecycle', function(assert) {
         var $container = $('#qunit-fixture');
 
         QUnit.expect(4);
 
-        distributorComponent( $container, ids )
+        distributorComponent( $container, { data : samples } )
             .on('init', function(){
                 assert.ok( ! this.is('rendered'), 'The component is not yet rendered');
-                assert.equal($('.search', $container).length, 0, 'The component is not yet appended');
+                assert.equal($('.distributor', $container).length, 0, 'The component is not yet appended');
             })
             .on('render', function(){
 
                 assert.ok(this.is('rendered'), 'The component is rendered');
-                assert.equal($('.search', $container).length, 1, 'The component is  appended');
+                assert.equal($('.distributor', $container).length, 1, 'The component is  appended');
 
                 this.destroy();
             })
@@ -127,241 +131,91 @@ define([
             });
     });
 
-    QUnit.asyncTest('basic input', function(assert) {
+    QUnit.asyncTest('disabling', function(assert) {
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(4);
+        QUnit.expect(10);
 
-        distributorComponent( $container, ids )
+        distributorComponent( $container, { data : samples } )
             .on('render', function(){
+                var $element = this.getElement();
+                var $input   = $('li [data-increment]:last-child', $element);
 
-                var $component = this.getElement();
-                var $input = $('input[type=search]', $component);
-                var $button = $('button', $component);
+                assert.ok(this.is('rendered'), 'The component is rendered');
+                assert.ok( ! this.is('disabled'), 'The component starts enabled');
+                assert.ok( ! $element.hasClass('disabled'), 'The component starts enabled');
+                assert.ok( ! $input.hasClass('disabled'), 'The input starts enabled');
 
-                assert.equal($input.length, 1, 'The search field exists');
-                assert.equal($button.length, 1, 'The button field exists');
-
-                $input
-                    .val('12345678')
-                    .trigger('change');
-                $button.trigger('click');
-
+                this.disable();
             })
-            .on('search', function(type, value){
+            .on('disable', function(){
+                var self     = this;
+                var $element = this.getElement();
+                var $input   = $('li [data-increment]:last-child', $element);
 
-                assert.equal(type, 'NccerCardNumber', 'The search type is correct');
-                assert.equal(value, '12345678', 'The search value is correct');
-                QUnit.start();
+                //push the check after the other handlers exec
+                setTimeout(function(){
+                    assert.ok(self.is('disabled'), 'The component is now disabled');
+                    assert.ok($element.hasClass('disabled'), 'The component is now disabled');
+                    assert.ok( ! $input.hasClass('disabled'), 'The input is now disabled');
+
+                    self.enable();
+                }, 1);
+            })
+            .after('enable', function(){
+                var self     = this;
+                var $element = this.getElement();
+                var $input   = $('li [data-increment]:last-child', $element);
+
+                //push the check after the other handlers exec
+                setTimeout(function(){
+                    assert.ok( ! self.is('disabled'), 'The component is now enabled');
+                    assert.ok( ! $element.hasClass('disabled'), 'The component is now enabled');
+                    assert.ok( ! $input.hasClass('disabled'), 'The input is now enabled');
+
+                    QUnit.start();
+                }, 1);
             });
     });
 
-    QUnit.asyncTest('select type and input', function(assert) {
+    QUnit.asyncTest('change values', function(assert) {
         var $container = $('#qunit-fixture');
+        var uri = 'http://www.my-tao.com#principlesOfCraningOperations';
 
-        QUnit.expect(7);
+        QUnit.expect(9);
 
-        distributorComponent( $container, ids )
+        distributorComponent( $container, { data : samples } )
             .on('render', function(){
+                var $element = this.getElement();
+                var $item    = $('ul li:nth-child(2)', $element);
+                var $input   = $('[data-increment]', $item);
+                var values   = this.getValues();
 
-                var $component = this.getElement();
-                var $selector = $('select', $component);
+                assert.ok(this.is('rendered'), 'The component is rendered');
+                assert.equal($item.length, 1, 'The item exists');
+                assert.equal($item.data('uri'), uri, 'The item URI is correct');
+                assert.equal($input.length, 1, 'The input exists');
 
-                assert.equal($selector.length, 1, 'The selector field exists');
+                assert.equal($input.val(), '5', 'The input has the correct value');
 
-                $selector.select2('val', 'USSSN').trigger('change');
+                assert.equal(values[uri], 5, 'The values matches');
 
+
+                $input.val('7').trigger('change');
             })
-            .on('typechange', function(type){
-                var $component = this.getElement();
+            .on('change', function(values){
+                var $element = this.getElement();
+                var $item    = $('ul li:nth-child(2)', $element);
+                var $input   = $('[data-increment]', $item);
 
-                var $input = $('input[type=search]', $component);
-                var $button = $('button', $component);
-
-
-                assert.equal(type, 'USSSN', 'The type given by the event is correct');
-
-                assert.equal($input.length, 1, 'The search field exists');
-                assert.equal($button.length, 1, 'The button field exists');
-
-                assert.equal($input.attr('placeholder'), 'AAA-GG-SSSS', 'The placeholder has been modified');
-
-                $input
-                    .val('111-22-3333')
-                    .trigger('change');
-                $button.trigger('click');
-
-            })
-            .on('search', function(type, value){
-
-                assert.equal(type, 'USSSN', 'The search type is correct');
-                assert.equal(value, '111223333', 'The search value is correct');
-                QUnit.start();
-            });
-    });
-
-    QUnit.asyncTest('detect input type and enter', function(assert) {
-        var $container = $('#qunit-fixture');
-
-        QUnit.expect(3);
-
-        distributorComponent( $container, ids )
-            .on('render', function(){
-
-                var $component = this.getElement();
-                var $input = $('input[type=search]', $component);
-                var event  = $.Event('keydown');
-                event.which = 13;
-                event.keyCode = 13;
-
-                assert.equal($input.length, 1, 'The search field exists');
-
-                $input
-                    .val('111-33-4444')
-                    .trigger('change')
-                    .trigger(event);
-
-            })
-            .on('search', function(type, value){
-
-                assert.equal(type, 'USSSN', 'The search type has been detected');
-                assert.equal(value, '111334444', 'The search value is correct');
-                QUnit.start();
-            });
-    });
-
-    QUnit.asyncTest('disabled on loading', function(assert) {
-        var $container = $('#qunit-fixture');
-
-        QUnit.expect(14);
-
-        distributorComponent( $container, ids )
-            .on('render', function(){
-                var $component = this.getElement();
-                var $input = $('input[type=search]', $component);
-                var $button = $('button', $component);
-
-                assert.equal($component.hasClass('disabled'), false, 'The component has not the disabled class');
-                assert.equal(this.is('disabled'), false, 'The component is not in disabled state');
-                assert.equal($input.length, 1, 'The search field exists');
-                assert.equal($input.prop('disabled'), false, 'The field is not disabled');
-                assert.equal($button.length, 1, 'The button field exists');
-                assert.equal($button.prop('disabled'), false, 'The button is not disabled');
-
-                this.trigger('loading');
-            })
-            .on('loading', function(){
-                var $component = this.getElement();
-                var $input = $('input[type=search]', $component);
-                var $button = $('button', $component);
-
-                assert.ok($component.hasClass('disabled'), 'The component has the disabled class');
-                assert.ok(this.is('disabled'), 'The component is in disabled state');
-                assert.ok($input.prop('disabled'), 'The field is disabled');
-                assert.ok($button.prop('disabled'), 'The button is disabled');
-
-                this.trigger('loaded');
-            })
-            .on('loaded', function(){
-                var $component = this.getElement();
-                var $input = $('input[type=search]', $component);
-                var $button = $('button', $component);
-
-                assert.equal($component.hasClass('disabled'), false, 'The component has not the disabled class');
-                assert.equal(this.is('disabled'), false, 'The component is not in disabled state');
-                assert.equal($input.prop('disabled'), false, 'The field is not disabled');
-                assert.equal($button.prop('disabled'), false, 'The button is not disabled');
+                assert.equal($input.val(), '7', 'The input has changed value');
+                assert.deepEqual(values, this.getValues(), 'The values given in parameter matches the component values');
+                assert.equal(values[uri], 7, 'The values matches');
 
                 QUnit.start();
             });
     });
 
-    QUnit.asyncTest('reset', function(assert) {
-        var $container = $('#qunit-fixture');
-
-        QUnit.expect(6);
-
-        distributorComponent( $container, ids )
-            .on('render', function(){
-
-                var $component = this.getElement();
-                var $input = $('input[type=search]', $component);
-                var $button = $('button', $component);
-
-                assert.equal($input.length, 1, 'The search field exists');
-                assert.equal($button.length, 1, 'The button field exists');
-
-                $input
-                    .val('12345678')
-                    .trigger('change');
-                $button.trigger('click');
-
-            })
-            .on('search', function(type, value){
-
-                assert.equal(type, 'NccerCardNumber', 'The search type is correct');
-                assert.equal(value, '12345678', 'The search value is correct');
-                assert.equal(this.getValue(), value, 'The current value is correct');
-
-                this.reset();
-
-            })
-            .on('reset', function(){
-
-                assert.equal(this.getValue(), '', 'The current value is empty');
-                QUnit.start();
-            });
-    });
-
-    QUnit.asyncTest('set value', function(assert) {
-        var $container = $('#qunit-fixture');
-
-        QUnit.expect(5);
-
-        distributorComponent( $container, ids )
-            .on('render', function(){
-
-                var $component = this.getElement();
-                var $input = $('input[type=search]', $component);
-
-                assert.equal($input.length, 1, 'The search field exists');
-                assert.equal($input.val(), '', 'The search field is empty');
-
-                this.setValue('87654321', 'NccerCardNumber');
-
-                assert.equal($input.val(), '87654321', 'The search field contains the new value');
-
-                this.search();
-
-            })
-            .on('search', function(type, value){
-
-                assert.equal(type, 'NccerCardNumber', 'The search type is correct');
-                assert.equal(value, '87654321', 'The search value is correct');
-
-                QUnit.start();
-            });
-    });
-
-    QUnit.asyncTest('invalid', function(assert) {
-        var $container = $('#qunit-fixture');
-
-        QUnit.expect(1);
-
-        distributorComponent( $container, ids )
-            .on('render', function(){
-                this.setValue('abc', 'NccerCardNumber')
-                    .search();
-            })
-            .on('search', function(){
-                assert.ok(false, 'The search event should not be triggered');
-            })
-            .on('invalid', function(){
-                assert.ok(true, 'The current value is not valid');
-                QUnit.start();
-            });
-    });
-*/
 
     QUnit.module('Visual');
 
@@ -372,12 +226,8 @@ define([
 
         distributorComponent( container, { data : samples })
             .on('render', function(){
-                var self = this;
-                setTimeout(function(){
-                    self.disable();
-                    assert.ok(true);
-                    QUnit.start();
-                }, 2000);
+                assert.ok(true);
+                QUnit.start();
             });
     });
 });

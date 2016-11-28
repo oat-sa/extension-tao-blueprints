@@ -17,6 +17,8 @@
  */
 
 /**
+ * This component handles the item count distribution
+ * as part of the test blueprint editor.
  *
  * @author Bertrand Chevrier <bertrand@taotesting.com>
  */
@@ -42,16 +44,30 @@ define([
      * Build a brand new search component
      *
      * @param {jQueryElement} $container - where to append the component
-     * @param {Object[]} ids - contains the list of search types, each describes an ID.
-     * @returns {searchComponent} the component
-     * @throws {TypeError} if the ids aren't defined
+     * @param {Object} [config] - set the configuration
+     * @param {Object} [config.data] - set the component data
+     * @param {String} config.data.uri - set the URI of the main property
+     * @param {String} config.data.label - set the label of the property
+     * @param {Object} config.data.selection - the property range instances as `uri : {label : String, count : Number}`
+     * @param {String|Number} [config.width] - the component width
+     * @param {String|Number} [config.height] - the component height
+     * @param {Number} [config.min] - the min value for the count
+     * @param {Number} [config.max] - the max value for the count
+     *
+     * @returns {distributorComponent} the component
      */
     return function distributorFactory($container, config){
 
+
         /**
-         * @typedef {searchComponent} The component itself
+         * @typedef {distributorComponent} The component itself
          */
         var distributor = component({
+
+            /**
+             * Get the values from the DOM
+             * @returns {Object} the values as `{uri : count}`
+             */
             getValues : function getValues(){
                 var $component;
                 var values = {};
@@ -67,6 +83,7 @@ define([
                         }
                     });
                 }
+                return values;
             }
         }, defaultConfig);
 
@@ -79,6 +96,11 @@ define([
                 var $component = this.getElement();
 
                 $component.on('change', function(){
+
+                    /**
+                     * @event distributorComponent#change the values have changed
+                     * @param {Object} values - the current values
+                     */
                     self.trigger('change', self.getValues());
                 });
 
