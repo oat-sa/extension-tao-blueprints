@@ -90,6 +90,35 @@ class Blueprints extends \tao_actions_RdfController
     }
 
     /**
+     * Edit a blueprint instance
+     */
+    public function editInstance()
+    {
+        $clazz = $this->getCurrentClass();
+        $instance = $this->getCurrentInstance();
+        $myFormContainer = new \tao_actions_form_Instance($clazz, $instance);
+
+        $myForm = $myFormContainer->getForm();
+        if($myForm->isSubmited()){
+            if($myForm->isValid()){
+
+                $values = $myForm->getValues();
+                // save properties
+                $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($instance);
+                $instance = $binder->bind($values);
+                $message = __('Blueprint saved');
+
+                $this->setData('message',$message);
+                $this->setData('reload', true);
+            }
+        }
+
+        $this->setData('formTitle', __('Edit Blueprint'));
+        $this->setData('myForm', $myForm->render());
+        $this->setView('form.tpl', 'tao');
+    }
+
+    /**
      * Edit a blueprint class
      * - Return form if form is not submitted
      * - Valid & Create instance if form is submitted
