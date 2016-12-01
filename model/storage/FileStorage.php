@@ -16,7 +16,6 @@
  *
  * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
  *
- *
  */
 
 namespace oat\taoBlueprints\model\storage;
@@ -29,6 +28,8 @@ use oat\oatbox\service\ConfigurableService;
 
 /**
  * Class FileStorage
+ * 
+ * A Storage implementation dedicated at managing blueprints.
  *
  * @author Camille Moyon
  * @package oat\taoBlueprints\model\storage
@@ -53,6 +54,7 @@ abstract class FileStorage extends ConfigurableService implements Storage
 
     /**
      * FileStorage constructor.
+     * 
      * Check if filesystem option exists
      *
      * @param array $options
@@ -68,6 +70,7 @@ abstract class FileStorage extends ConfigurableService implements Storage
 
     /**
      * Create an empty content for a given blueprint
+     * 
      * Set content property of blueprint
      *
      * @param \core_kernel_classes_Resource $blueprint
@@ -101,7 +104,9 @@ abstract class FileStorage extends ConfigurableService implements Storage
     }
 
     /**
-     * Delete a blueprint content by removing file & ontology reference
+     * Delete a blueprint
+     * 
+     * Delete content by removing file & ontology reference
      *
      * @param \core_kernel_classes_Resource $blueprint
      * @return bool
@@ -118,6 +123,8 @@ abstract class FileStorage extends ConfigurableService implements Storage
 
     /**
      * Check if blueprint have an associated ontology content
+     * 
+     * This method checks whether or not a blueprint resource has an associated content in storage.
      *
      * @param \core_kernel_classes_Resource $blueprint
      * @return bool
@@ -130,6 +137,8 @@ abstract class FileStorage extends ConfigurableService implements Storage
 
     /**
      * Get the file associated to a blueprint
+     * 
+     * This method returns the File related to a given blueprint content.
      *
      * @param \core_kernel_classes_Resource $blueprint
      * @return \oat\oatbox\filesystem\File
@@ -147,6 +156,8 @@ abstract class FileStorage extends ConfigurableService implements Storage
 
     /**
      * Get the default file path for blueprint contents
+     * 
+     * Get the default path in Storage where to store blueprint contents.
      *
      * @param \core_kernel_classes_Resource $blueprint
      * @return string
@@ -157,7 +168,9 @@ abstract class FileStorage extends ConfigurableService implements Storage
     }
     
     /**
-     * Get the blueprint directory
+     * Get the blueprint directory.
+     * 
+     * Get the Directory object representing the directory where to store blueprint related contents.
      *
      * @return Directory
      */
@@ -174,7 +187,9 @@ abstract class FileStorage extends ConfigurableService implements Storage
     }
 
     /**
-     * Get the fileSerializer to store ontology file
+     * Get the fileSerializer to store ontology file.
+     * 
+     * Get a reference to a FileSerializer able to serialize blueprint contents.
      *
      * @return array|FileReferenceSerializer|object
      */
