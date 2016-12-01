@@ -21,6 +21,7 @@
 namespace oat\taoBlueprints\model\search;
 
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\service\ServiceManager;
 use oat\tao\model\search\tokenizer\ResourceTokenizer;
 use oat\taoBlueprints\model\Service;
 use oat\taoBlueprints\model\storage\Storage;
@@ -49,10 +50,16 @@ class BlueprintContentTokenizer implements ResourceTokenizer
             return [];
         }
 
-        $contentStrings[] = $this->getResource($content['property'])->getLabel();
+        $contentStrings = [];
 
-        foreach(array_keys($content['selection']) as $selectionProperty) {
-            $contentStrings[] = $this->getResource($selectionProperty)->getLabel();
+        if (isset($content['property']) && ! empty($content['property'])) {
+            $contentStrings[] = $this->getResource($content['property'])->getLabel();
+        }
+
+        foreach(array_keys($content['selection']) as $property) {
+            if (! empty($property)) {
+                $contentStrings[] = $this->getResource($property)->getLabel();
+            }
         }
 
         return $contentStrings;
@@ -63,6 +70,8 @@ class BlueprintContentTokenizer implements ResourceTokenizer
      */
     public function getFileStorage()
     {
-        return Service::singleton()->getFileStorage();
+        $service = Service::singleton();
+        ServiceManager::getServiceManager()->propagate($service);
+        return $service->getFileStorage();
     }
 }

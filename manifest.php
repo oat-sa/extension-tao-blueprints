@@ -29,8 +29,8 @@ return array(
     'license'     => 'GPL-2.0',
     'version'     => '0.2.0',
     'author'      => 'Open Assessment Technologies SA',
-    'requires'    => [
-        'tao'     => '>=7.29.0'
+    'requires' => [
+        'tao' => '>=7.29.0'
     ],
     'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#taoBlueprintsManager',
     'acl' => array(
@@ -39,6 +39,7 @@ return array(
     'install' => array(
         'rdf' => array(
             dirname(__FILE__) . '/install/ontology/blueprints.rdf',
+            dirname(__FILE__) . '/install/ontology/indexation.rdf',
         ),
         'php' => array(
             \oat\taoBlueprints\scripts\install\InitBlueprintFilesystem::class,

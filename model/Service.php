@@ -39,6 +39,13 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
     use ServiceLocatorAwareTrait;
 
     /**
+     * Service to handle blueprint files storage
+     *
+     * @var Storage
+     */
+    protected $fileStorage;
+
+    /**
      * Service to handle ontology list
      *
      * @var \tao_models_classes_ListService
