@@ -24,22 +24,30 @@
  */
 return array(
     'name'        => 'taoBlueprints',
-    'label'       => 'Blueprints extension',
-    'description' => 'Extension to manage test blue prints',
+    'label'       => 'Blueprints Extension',
+    'description' => 'Extension to manage Test Blueprints',
     'license'     => 'GPL-2.0',
-    'version'     => '0.1.0',
+    'version'     => '0.2.0',
     'author'      => 'Open Assessment Technologies SA',
-    'requires'    => [
-        'tao'     => '>=7.29.0'
+    'requires' => [
+        'tao' => '>=7.29.0'
     ],
     'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#taoBlueprintsManager',
     'acl' => array(
         array('grant', 'http://www.tao.lu/Ontologies/generis.rdf#taoBlueprintsManager', array('ext'=>'taoBlueprints')),
     ),
     'install' => array(
+        'rdf' => array(
+            dirname(__FILE__) . '/install/ontology/blueprints.rdf',
+            dirname(__FILE__) . '/install/ontology/indexation.rdf',
+        ),
+        'php' => array(
+            \oat\taoBlueprints\scripts\install\InitBlueprintFilesystem::class,
+        )
     ),
     'uninstall' => array(
     ),
+    'update' => \oat\taoBlueprints\scripts\update\Updater::class,
     'routes' => array(
         '/taoBlueprints' => 'oat\\taoBlueprints\\controller'
     ),

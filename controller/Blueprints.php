@@ -21,27 +21,134 @@
 
 namespace oat\taoBlueprints\controller;
 
+use oat\generis\model\OntologyAwareTrait;
+use oat\taoBlueprints\model\Service;
+
 /**
- * Sample controller
+ * Blueprints controller
  *
- * @author Open Assessment Technologies SA
+ * @author Camille Moyon
  * @package taoBlueprints
  * @license GPL-2.0
  *
  */
-class Blueprints extends \tao_actions_CommonModule
+class Blueprints extends \tao_actions_RdfController
 {
+    use OntologyAwareTrait;
+
+    /**
+     * Blueprints constructor.
+     * Set resource service
+     */
     public function __construct()
     {
-        parent::__construct();
+        $this->service = Service::singleton();
+        $this->getServiceManager()->propagate($this->service);
     }
 
     /**
-     * A possible entry point to tao
+     * Get the root class of blueprint
+     *
+     * @return \core_kernel_classes_Class
      */
-    public function index()
+    protected function getRootClass()
     {
-        $this->setData('message', 'Extension to manage tao blue prints');
-        $this->setView('taoBlueprints/templateExample.tpl');
+        return $this->getClassService()->getRootClass();
     }
+
+    /**
+     * Create a new instance of blueprint class with unique label
+     *
+     * @throws \Exception
+     */
+    public function create()
+    {
+        if(! \tao_helpers_Request::isAjax()){
+            throw new \Exception(__("Wrong request mode"));
+        }
+
+        $resource = $this->getResource($this->getRequestParameter('id'));
+        if ($resource->isClass()) {
+            $clazz = $this->getClass($resource->getUri());
+        } else {
+            $clazz = reset($resource->getTypes());
+        }
+
+        $label = $this->getClassService()->createUniqueLabel($clazz);
+        $item = $this->getClassService()->createInstance($clazz, $label);
+
+        if(! is_null($item)){
+            $response = array(
+                'label'	=> $item->getLabel(),
+                'uri' 	=> $item->getUri()
+            );
+        } else {
+            $response = false;
+        }
+
+        $this->returnJson($response);
+    }
+
+    /**
+     * Edit a blueprint instance
+     */
+    public function editInstance()
+    {
+        $clazz = $this->getCurrentClass();
+        $instance = $this->getCurrentInstance();
+        $myFormContainer = new \tao_actions_form_Instance($clazz, $instance);
+
+        $myForm = $myFormContainer->getForm();
+        if($myForm->isSubmited()){
+            if($myForm->isValid()){
+
+                $values = $myForm->getValues();
+                // save properties
+                $binder = new \tao_models_classes_dataBinding_GenerisFormDataBinder($instance);
+                $instance = $binder->bind($values);
+                $message = __('Blueprint saved');
+
+                $this->setData('message',$message);
+                $this->setData('reload', true);
+            }
+        }
+
+        $this->setData('formTitle', __('Edit Blueprint'));
+        $this->setData('myForm', $myForm->render());
+        $this->setView('form.tpl', 'tao');
+    }
+
+    /**
+     * Edit a blueprint class
+     * - Return form if form is not submitted
+     * - Valid & Create instance if form is submitted
+     */
+    public function editBlueprintClass()
+    {
+        $clazz = $this->getClass($this->getRequestParameter('id'));
+
+        if($this->hasRequestParameter('property_mode')){
+            $this->setSessionAttribute('property_mode', $this->getRequestParameter('property_mode'));
+        }
+
+        $myForm = $this->getClassForm($clazz, $this->getClassService()->getRootClass());
+
+        if ($this->hasWriteAccess($clazz->getUri())) {
+            if($myForm->isSubmited()){
+                if($myForm->isValid()){
+                    if($clazz instanceof \core_kernel_classes_Resource){
+                        $this->setData("selectNode", \tao_helpers_Uri::encode($clazz->getUri()));
+                    }
+                    $this->setData('message', __('Class saved'));
+                    $this->setData('reload', true);
+                }
+            }
+        } else {
+            $myForm->setActions(array());
+        }
+        $this->setData('formTitle', __('Edit blueprint class'));
+        $this->setData('myForm', $myForm->render());
+        $this->setView('form.tpl', 'tao');
+    }
+
 }

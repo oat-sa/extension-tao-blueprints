@@ -1,0 +1,46 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<rdf:RDF
+	xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+	xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+	xml:base="http://www.taotesting.com/ontologies/blueprint.rdf#"
+	xmlns:tao="http://www.tao.lu/Ontologies/TAO.rdf#"
+>
+
+  <!-- Tokenizer -->
+  <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#BlueprintContentTokenizer">
+  	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Tokenizer"/>
+  	<rdfs:label xml:lang="en-US"><![CDATA[Blueprint Content Tokenizer]]></rdfs:label>
+  	<rdfs:comment xml:lang="en-US"><![CDATA[Tokenizer using the Blueprint content]]></rdfs:comment>
+  	<tao:TokenizerClass xml:lang="en-US"><![CDATA[oat\taoBlueprints\model\search\BlueprintContentTokenizer]]></tao:TokenizerClass>
+  </rdf:Description>
+
+  <!-- Blueprint identifier index -->
+  <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#identifierIndex">
+      <rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Index"/>
+      <rdfs:label xml:lang="en-US"><![CDATA[Blueprint identifier Index]]></rdfs:label>
+      <tao:IndexIdentifier><![CDATA[identifier]]></tao:IndexIdentifier>
+      <tao:IndexFuzzyMatching rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
+      <tao:IndexDefaultSearch rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
+      <tao:IndexTokenizer rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#RawValueTokenizer"/>
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#identifier">
+  	<tao:PropertyIndex rdf:resource="http://www.taotesting.com/ontologies/blueprint.rdf#identifierIndex"/>
+  </rdf:Description>
+
+
+  <!-- Blueprint content index -->
+  <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#BlueprintContentIndex">
+  	<rdf:type rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#Index"/>
+  	<rdfs:label xml:lang="en-US"><![CDATA[Blueprint Content Index]]></rdfs:label>
+  	<tao:IndexIdentifier><![CDATA[content]]></tao:IndexIdentifier>
+  	<tao:IndexTokenizer rdf:resource="http://www.taotesting.com/ontologies/blueprint.rdf#BlueprintContentTokenizer"/>
+  	<tao:IndexFuzzyMatching rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
+  	<tao:IndexDefaultSearch rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True" />
+  </rdf:Description>
+
+  <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#content">
+  	<tao:PropertyIndex rdf:resource="http://www.taotesting.com/ontologies/blueprint.rdf#BlueprintContentIndex"/>
+  </rdf:Description>
+
+</rdf:RDF>
