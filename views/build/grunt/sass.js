@@ -12,6 +12,9 @@ module.exports = function(grunt) {
                 }, {
                     src: root + 'scss/distributor.scss',
                     dest: root + 'css/distributor.css'
+                }, {
+                    src: root + 'scss/property-selector.scss',
+                    dest: root + 'css/property-selector.css'
                 }]
             }
         },
