@@ -1,2 +1,41 @@
 @import "inc/bootstrap";
 
+.blueprint-editor {
+
+    @include simple-border;
+    @include border-radius;
+    background-color: $uiClickableDefaultBg;
+    position: relative;
+    opacity: 0;
+    @include transition(opacity, 400ms, linear);
+
+    &.rendered {
+        opacity: 1;
+        @include transition(opacity, 400ms, linear);
+    }
+
+    .form-row {
+        @include flex-container;
+        padding: 10px;
+
+        & > label {
+            margin: 0;
+            padding: 0;
+            line-height: 30px;
+            @include simple-flex-box(120px);
+        }
+        & > input, & > div {
+            @include simple-flex-box;
+        }
+    }
+
+    .distributior-container {
+        padding: 10px;
+    }
+
+    .controls {
+        padding: 10px;
+        text-align: right;
+    }
+}
+
