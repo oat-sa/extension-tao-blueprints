@@ -1,2 +1,2 @@
 # extension-tao-blueprints
-An extension dedicated on test blueprints management and authoring
+An extension dedicated to test blueprints management and authoring.
