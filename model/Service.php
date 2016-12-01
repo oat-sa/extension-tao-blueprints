@@ -29,6 +29,8 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
 
 /**
  * Class Service
+ * 
+ * A Service implementation dedicated to manage blueprints across the extension.
  *
  * @author Camille Moyon
  * @package oat\taoBlueprints\model
