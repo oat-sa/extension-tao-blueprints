@@ -151,4 +151,50 @@ class Blueprints extends \tao_actions_RdfController
         $this->setView('form.tpl', 'tao');
     }
 
+    /**
+     * Get all blueprint by identifier
+     */
+    public function getBlueprintsByIdentifier()
+    {
+        if (!\tao_helpers_Request::isAjax()) {
+            throw new \common_exception_IsAjaxAction(__FUNCTION__);
+        }
+
+        if(!$this->hasRequestParameter('identifier')){
+            throw new \common_exception_MissingParameter('identifier');
+        }
+
+        $blueprints = $this->getClassService()->getBlueprintsByIdentifier($this->getRequestParameter('identifier'));
+
+        $returnValue = array();
+        foreach($blueprints as $blueprint){
+            $returnValue['results'][] = ['name' => $blueprint->getLabel(), 'id' => $blueprint->getUri()];
+        }
+
+        $this->returnJson($returnValue);
+    }
+
+    /**
+     * Get Blueprint for one section in one test
+     */
+    public function getBlueprintsByTestSection()
+    {
+        if (!\tao_helpers_Request::isAjax()) {
+            throw new \common_exception_IsAjaxAction(__FUNCTION__);
+        }
+
+        \common_Logger::w(print_r($this->getRequestParameters(),true));
+        if(!$this->hasRequestParameter('test')){
+            throw new \common_exception_MissingParameter('test');
+        }
+
+        if(!$this->hasRequestParameter('section')){
+            throw new \common_exception_MissingParameter('section');
+        }
+
+        $blueprint = $this->getClassService()->getBlueprintsByTestSection($this->getRequestParameter('test'), $this->getRequestParameter('section'));
+
+        $this->returnJson(['name' => $blueprint->getLabel(), 'id' => $blueprint->getUri()]);
+    }
+
 }

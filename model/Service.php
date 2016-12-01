@@ -23,6 +23,7 @@ namespace oat\taoBlueprints\model;
 
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\OntologyAwareTrait;
+use oat\taoBlueprints\model\storage\FileStorage;
 use oat\taoBlueprints\model\storage\Storage;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -40,13 +41,21 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
     use OntologyAwareTrait;
     use ServiceLocatorAwareTrait;
 
+    const PROPERTY_BLUEPRINT_IDENTIFIER = "http://www.taotesting.com/ontologies/blueprint.rdf#identifier";
+
+    const PROPERTY_BLUEPRINT_SECTION_TEST = "http://www.taotesting.com/ontologies/blueprint.rdf#TestSection";
+
+    const PROPERTY_SECTIONTEST_SECTION = "http://www.taotesting.com/ontologies/blueprint.rdf#Section";
+
+    const PROPERTY_SECTIONTEST_TEST = "http://www.taotesting.com/ontologies/blueprint.rdf#Test";
+
+
     /**
      * Service to handle blueprint files storage
      *
      * @var Storage
      */
     protected $fileStorage;
-
     /**
      * Service to handle ontology list
      *
@@ -203,6 +212,64 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
             $this->fileStorage = $this->getServiceLocator()->get(Storage::SERVICE_ID);
         }
         return $this->fileStorage;
+    }
+
+    /**
+     * @param $identifier
+     * @param $limit
+     * @return array
+     */
+    public function getBlueprintsByIdentifier($identifier, $limit = 20)
+    {
+        $blueprints = $this->getRootClass()->searchInstances(
+            [
+                self::PROPERTY_BLUEPRINT_IDENTIFIER => $identifier
+            ],
+            [
+                'limit' => $limit
+            ]
+        );
+
+        return $blueprints;
+    }
+
+    /**
+     * @param $identifier
+     * @param $limit
+     * @return array
+     */
+    public function getBlueprintsByTestSection($test, $section)
+    {
+
+        /** @var ComplexSearchService $search */
+        $search = $this->getServiceLocator()->get(ComplexSearchService::SERVICE_ID);
+        $queryBuilder = $search->query();
+
+        $query = $search
+            ->searchType($queryBuilder, 'http://www.w3.org/1999/02/22-rdf-syntax-ns#Property' , true)
+            ->add(self::PROPERTY_SECTIONTEST_SECTION)->equals($section)
+            ->add(self::PROPERTY_SECTIONTEST_TEST)->equals($test);
+
+        $queryBuilder->setCriteria($query);
+        $result = $search->getGateway()->search($queryBuilder);
+
+        $blueprint = null;
+
+        if($result->total() > 0){
+            /** @var \core_kernel_classes_Resource $testSection */
+            $testSection = $result->current();
+            $blueprints = $this->getRootClass()->searchInstances(
+                [
+                    self::PROPERTY_BLUEPRINT_SECTION_TEST => $testSection
+                ]
+            );
+
+            if(!empty($blueprints)){
+                $blueprint = array_shift($blueprints);
+            }
+        }
+
+        return $blueprint;
     }
 
     /**
