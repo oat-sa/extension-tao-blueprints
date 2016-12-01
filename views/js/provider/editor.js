@@ -40,9 +40,6 @@ define([
         save : {
             url : url.route('save', 'Editor', 'taoBlueprints')
         },
-        getItemProperties : {
-            url : url.route('getItemProperties', 'Editor', 'taoBlueprints')
-        },
         getSelection : {
             url : url.route('getSelection', 'Editor', 'taoBlueprints')
         }
@@ -64,16 +61,58 @@ define([
          */
         return {
 
-            get: function get(){
+            /**
+             * Get blueprint's editor data
+             * @param {String} uri - the blueprint URI
+             * @returns {Promise} that resolves with the data
+             */
+            get: function get(uri){
+                return new Promise(function(resolve, reject){
+
+                    if(_.isEmpty(uri)){
+                        return reject(new TypeError('The blueprint URI parameter must be provided'));
+                    }
+
+                    return resolve(request(config.get.url, { uri : uri }));
+                });
+
             },
 
-            save : function save(){
+            /**
+             * Save blueprint's editor data
+             * @param {String} uri - the blueprint URI
+             * @param {Object} values - the blueprint's data to save, we check only the selection member
+             * @returns {Promise} that resolves if saved
+             */
+            save : function save(uri, values){
+                return new Promise(function(resolve, reject){
+
+                    if(_.isEmpty(uri)){
+                        return reject(new TypeError('The blueprint URI parameter must be provided'));
+                    }
+                    if(!_.isPlainObject(values) || !values.selection){
+                        return reject(new TypeError('The values parameter must be provided'));
+                    }
+
+                    return resolve(request(config.save.url, { uri : uri, values : values }));
+                });
             },
 
-            getItemProperties : function getItemProperties(){
-            },
+            /**
+             * Loads a selection for a particular property
+             * @param {String} uri - the property URI
+             * @returns {Promise} that resolves with the selection data
+             */
+            getSelection : function getSelection(uri){
 
-            getSelection : function getSelection(){
+                return new Promise(function(resolve, reject){
+
+                    if(_.isEmpty(uri)){
+                        return reject(new TypeError('The property URI parameter must be provided'));
+                    }
+
+                    return resolve(request(config.getSelection.url, { uri : uri }));
+                });
 
             }
         };

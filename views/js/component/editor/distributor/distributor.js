@@ -35,7 +35,7 @@ define([
 
     var defaultConfig = {
         width: 'auto',
-        height: 200,
+        height: 300,
         min : 0,
         max : 99
     };
@@ -69,6 +69,7 @@ define([
              * @returns {Object} the values as `{uri : count}`
              */
             getValues : function getValues(){
+                var self = this;
                 var $component;
                 var values = {};
                 if(this.is('rendered')) {
@@ -78,8 +79,11 @@ define([
                         var $elt   = $(this);
                         var $input = $(':text', $elt);
                         var uri    = $elt.data('uri');
-                        if(uri && $input.length === 1){
-                            values[uri] =  $input.val();
+                        if(uri && $input.length === 1 && self.config.data.selection[uri]){
+                            values[uri] = {
+                                label : self.config.data.selection[uri].label,
+                                value : $input.val()
+                            };
                         }
                     });
                 }

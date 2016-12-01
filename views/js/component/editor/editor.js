@@ -34,7 +34,7 @@ define([
     'use strict';
 
     var defaultConfig = {
-        width:  600,
+        width:  500,
         height: 430
     };
 
@@ -63,36 +63,33 @@ define([
 
             refresh : function refresh(uri, label, selection){
                 var self       = this;
-                var $component = this.getElement();
-                var distributorConfig;
+
                 if( this.is('rendered') ) {
+                    this.disable();
+
                     if (distributor){
                         distributor.destroy();
                     }
-                    distributorConfig = _.default({
-                        data : {
-                            property : {
-                                uri : uri,
-                                label : label
-                            },
-                            selection : selection
-                        }
-                    }, this.config);
+                    this.config.data.property = {
+                        uri : uri,
+                        label : label
+                    };
+                    this.config.data.selection = selection;
 
-                    distributor = distributorComponent($('.property-distribution', $component), distributorConfig)
+                    distributor = distributorComponent($distributorContainer, _.pick(this.config, ['data']))
                     .on('render', function(){
+                        self.enable();
                         self.trigger('refresh');
                     });
                 }
             },
 
             getValues : function getValues() {
-                if( this.is('rendered') ) {
-                    if (distributor){
-                        return distributor.getValues();
-                    }
+                var values = _.pick(this.config.data, ['selection', 'property']);
+                if(distributor){
+                    values.selection = distributor.getValues();
                 }
-                return {};
+                return values;
             }
         }, defaultConfig);
 
@@ -107,7 +104,7 @@ define([
                 $distributorContainer      = $('.distributior-container', $component);
                 $propertySelectorContainer = $('.property-selector-container', $component);
 
-                distributor = distributorComponent($distributorContainer, _.clone(config));
+                distributor = distributorComponent($distributorContainer, _.pick(config, 'data'));
                 selector = propertySelectorComponent($propertySelectorContainer, {
                     uri:   config.data.property.uri,
                     label: config.data.property.label,

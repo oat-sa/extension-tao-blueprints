@@ -103,7 +103,10 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
         $result = $search->getGateway()->search($queryBuilder);
 
         foreach ($result as $raw) {
-            $properties[$raw->getUri()] = $raw->getLabel();
+            $properties[] = [
+                'uri' => $raw->getUri(),
+                'label' => $raw->getLabel()
+            ];
         }
 
         return $properties;

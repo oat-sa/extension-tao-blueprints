@@ -11,7 +11,7 @@
                 <input type="text" value="{{value}}" data-increment="1" data-min="{{../min}}" data-max="{{../max}}" data-zero />
             </div>
         </li>
-    {{#else}}
+    {{else}}
         <li><em>{{data.property.label}} {{__ 'has no resources'}}</em></li>
     {{/each}}
     </ul>
