@@ -11,7 +11,7 @@
     <!-- Contains identifier, title & content to store additional info -->
     <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#Blueprint">
         <rdfs:label xml:lang="en-US"><![CDATA[Blueprint]]></rdfs:label>
-        <rdfs:comment xml:lang="en-US"><![CDATA[Blueprint constraints.]]></rdfs:comment>
+        <rdfs:comment xml:lang="en-US"><![CDATA[Blueprint Test Constrants]]></rdfs:comment>
         <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
     </rdf:Description>
 
@@ -21,7 +21,7 @@
     <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#identifier">
         <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
         <rdfs:label xml:lang="en-US"><![CDATA[Identifier]]></rdfs:label>
-        <rdfs:comment xml:lang="en-US"><![CDATA[Blueprint identifier]]></rdfs:comment>
+        <rdfs:comment xml:lang="en-US"><![CDATA[A Blueprint identifier]]></rdfs:comment>
         <rdfs:domain rdf:resource="http://www.taotesting.com/ontologies/blueprint.rdf#Blueprint"/>
         <rdfs:range rdf:resource="http://www.w3.org/2000/01/rdf-schema#Literal"/>
         <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
@@ -36,7 +36,7 @@
     <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#content">
         <rdf:type rdf:resource="http://www.w3.org/1999/02/22-rdf-syntax-ns#Property"/>
         <rdfs:label xml:lang="en-US"><![CDATA[Content]]></rdfs:label>
-        <rdfs:comment xml:lang="en-US"><![CDATA[Blueprint Content]]></rdfs:comment>
+        <rdfs:comment xml:lang="en-US"><![CDATA[A Blueprint Content representing the its actual structure]]></rdfs:comment>
         <rdfs:domain rdf:resource="http://www.taotesting.com/ontologies/blueprint.rdf#Blueprint"/>
         <rdfs:range rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#Literal"/>
         <generis:is_language_dependent rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#True"/>
