@@ -41,7 +41,7 @@ define([
     };
 
     /**
-     * Build a brand new search component
+     * Build a brand new distributor component
      *
      * @param {jQueryElement} $container - where to append the component
      * @param {Object} [config] - set the configuration

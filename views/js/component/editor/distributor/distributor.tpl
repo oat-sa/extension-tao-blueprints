@@ -1,6 +1,6 @@
 <section class="distributor">
     <header class="row">
-        <div class="label">{{__ "Property"}} : {{data.label}}</div>
+        <div class="label">{{data.property.label}}</div>
         <div class="count">{{__ "Item Count" }}</div>
     </header>
     <ul>
@@ -11,6 +11,8 @@
                 <input type="text" value="{{value}}" data-increment="1" data-min="{{../min}}" data-max="{{../max}}" data-zero />
             </div>
         </li>
+    {{#else}}
+        <li><em>{{data.property.label}} {{__ 'has no resources'}}</em></li>
     {{/each}}
     </ul>
 </section>

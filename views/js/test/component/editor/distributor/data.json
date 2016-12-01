@@ -1,6 +1,11 @@
 {
-  "uri": "http://www.my-tao.com#topicArea",
-  "label": "Topic Area",
+  "uri": "http://my-tao.com#Blueprint1",
+  "identifier": "boom_truck_v2",
+  "label": "Boom Truck",
+  "property": {
+    "uri": "http://www.my-tao.com#topicArea",
+    "label": "Topic Area"
+  },
   "selection": {
     "http://www.my-tao.com#federalStateRegulation": {
       "label": "Federal & State Regulation",

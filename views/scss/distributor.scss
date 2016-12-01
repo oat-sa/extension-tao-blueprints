@@ -5,6 +5,7 @@
     overflow: hidden;
     @include simple-border;
     height: 100%;
+    background-color : $uiGeneralContentBg;
 
    .row {
         height: 40px;
@@ -21,6 +22,9 @@
     }
     header {
         background-color: $uiHeaderBg;
+        &.row > .count {
+            padding-left: 0;
+        }
     }
     ul {
         padding: 0;
