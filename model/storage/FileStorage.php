@@ -125,12 +125,7 @@ abstract class FileStorage extends ConfigurableService implements Storage
     public function hasContent(\core_kernel_classes_Resource $blueprint)
     {
         $contentProperty = $this->getProperty('http://www.taotesting.com/ontologies/blueprint.rdf#content');
-        try {
-            $blueprint->getUniquePropertyValue($contentProperty);
-            return true;
-        } catch (\core_kernel_classes_EmptyProperty $e) {
-            return false;
-        }
+        return $blueprint->getOnePropertyValue($contentProperty) !== null;
     }
 
     /**
