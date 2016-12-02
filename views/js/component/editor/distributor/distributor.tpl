@@ -12,7 +12,13 @@
             </div>
         </li>
     {{else}}
-        <li><em>{{data.property.label}} {{__ 'has no resources'}}</em></li>
+        <li><em>
+        {{#if ../data.property.label}}
+            {{../data.property.label}} {{__ 'has no resources.'}}
+        {{else}}
+            {{__ 'No property defined, please select a property.'}}
+        {{/if}}
+        </em></li>
     {{/each}}
     </ul>
 </section>

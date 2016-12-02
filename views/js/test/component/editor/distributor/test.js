@@ -24,8 +24,9 @@
 define([
     'jquery',
     'taoBlueprints/component/editor/distributor/distributor',
-    'json!taoBlueprints/test/component/editor/distributor/data.json'
-], function($, distributorComponent, samples) {
+    'json!taoBlueprints/test/component/editor/distributor/data.json',
+    'json!taoBlueprints/test/component/editor/distributor/empty.json'
+], function($, distributorComponent, samples, emptySamples) {
     'use strict';
 
     QUnit.module('API');
@@ -182,7 +183,7 @@ define([
         var $container = $('#qunit-fixture');
         var uri = 'http://www.my-tao.com#principlesOfCraningOperations';
 
-        QUnit.expect(9);
+        QUnit.expect(11);
 
         distributorComponent( $container, { data : samples } )
             .on('render', function(){
@@ -198,8 +199,8 @@ define([
 
                 assert.equal($input.val(), '5', 'The input has the correct value');
 
-                assert.equal(values[uri], 5, 'The values matches');
-
+                assert.equal(typeof values[uri], 'object', 'The values entry exists');
+                assert.equal(values[uri].value, '5', 'The values matches');
 
                 $input.val('7').trigger('change');
             })
@@ -210,12 +211,47 @@ define([
 
                 assert.equal($input.val(), '7', 'The input has changed value');
                 assert.deepEqual(values, this.getValues(), 'The values given in parameter matches the component values');
-                assert.equal(values[uri], 7, 'The values matches');
+
+                assert.equal(typeof values[uri], 'object', 'The values entry exists');
+                assert.equal(values[uri].value, '7', 'The values matches');
 
                 QUnit.start();
             });
     });
 
+    QUnit.asyncTest('no property', function(assert) {
+        var $container = $('#qunit-fixture');
+
+        QUnit.expect(2);
+
+        distributorComponent( $container, { data : { property : false }} )
+            .on('render', function(){
+                var $element = this.getElement();
+                var $content = $('ul li', $element);
+
+                assert.equal($content.length, 1, 'Only one element is there');
+                assert.equal($content.text().trim(), 'No property defined, please select a property.', 'The message is correct');
+
+                QUnit.start();
+            });
+    });
+
+    QUnit.asyncTest('no values', function(assert) {
+        var $container = $('#qunit-fixture');
+
+        QUnit.expect(2);
+
+        distributorComponent( $container, { data : emptySamples } )
+            .on('render', function(){
+                var $element = this.getElement();
+                var $content = $('ul li', $element);
+
+                assert.equal($content.length, 1, 'Only one element is there');
+                assert.equal($content.text().trim(), 'Topic Area has no resources.', 'The message is correct');
+
+                QUnit.start();
+            });
+    });
 
     QUnit.module('Visual');
 
