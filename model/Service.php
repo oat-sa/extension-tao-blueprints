@@ -206,8 +206,9 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
             return \common_report_Report::createFailure(__('Unable to find blueprint to save matrix.'));
         }
 
-        foreach ($matrix as $selection => $value) {
-            if (! $this->getResource($selection)->exists() || intval($value) == 0 ) {
+        foreach ($matrix as $selection => &$value) {
+            $value = intval($value);
+            if (! $this->getResource($selection)->exists() || $value >= 0) {
                 return \common_report_Report::createFailure(__('Matrix is not correctly set.'));
             }
         }
