@@ -59,6 +59,15 @@ interface Storage
     public function hasContent(\core_kernel_classes_Resource $blueprint);
 
     /**
+     * Save a content for a given blueprint
+     *
+     * @param \core_kernel_classes_Resource $blueprint
+     * @param $content
+     * @return boolean
+     */
+    public function setContent(\core_kernel_classes_Resource $blueprint, $content);
+
+    /**
      * Delete a content for a given blueprint
      *
      * @param \core_kernel_classes_Resource $blueprint

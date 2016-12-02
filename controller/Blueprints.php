@@ -23,6 +23,7 @@ namespace oat\taoBlueprints\controller;
 
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoBlueprints\model\Service;
+use oat\taoBlueprints\model\TestSectionLinkService;
 
 /**
  * Blueprints controller
@@ -36,6 +37,9 @@ class Blueprints extends \tao_actions_RdfController
 {
     use OntologyAwareTrait;
 
+    /** @var TestSectionLinkService  $testSectionLinkService */
+    private $testSectionLinkService = null;
+
     /**
      * Blueprints constructor.
      * Set resource service
@@ -43,6 +47,7 @@ class Blueprints extends \tao_actions_RdfController
     public function __construct()
     {
         $this->service = Service::singleton();
+        $this->testSectionLinkService = $this->getServiceManager()->get(TestSectionLinkService::SERVICE_ID);
         $this->getServiceManager()->propagate($this->service);
     }
 
@@ -115,7 +120,8 @@ class Blueprints extends \tao_actions_RdfController
 
         $this->setData('formTitle', __('Edit Blueprint'));
         $this->setData('myForm', $myForm->render());
-        $this->setView('form.tpl', 'tao');
+        $this->setData('uri', $instance->getUri());
+        $this->setView('form_blueprints.tpl', 'taoBlueprints');
     }
 
     /**
@@ -149,6 +155,55 @@ class Blueprints extends \tao_actions_RdfController
         $this->setData('formTitle', __('Edit blueprint class'));
         $this->setData('myForm', $myForm->render());
         $this->setView('form.tpl', 'tao');
+    }
+
+    /**
+     * Get all blueprint by identifier
+     */
+    public function getBlueprintsByIdentifier()
+    {
+        if (!\tao_helpers_Request::isAjax()) {
+            throw new \common_exception_IsAjaxAction(__FUNCTION__);
+        }
+
+        if(!$this->hasRequestParameter('identifier')){
+            throw new \common_exception_MissingParameter('identifier');
+        }
+
+        $blueprints = $this->getClassService()->getBlueprintsByIdentifier($this->getRequestParameter('identifier'));
+
+        $returnValue['results'] = [];
+        foreach($blueprints as $blueprint){
+            $returnValue['results'][] = ['text' => $blueprint->getLabel(), 'id' => $blueprint->getUri()];
+        }
+
+        $this->returnJson($returnValue);
+    }
+
+    /**
+     * Get Blueprint for one section in one test
+     */
+    public function getBlueprintsByTestSection()
+    {
+        $returnValue = [];
+        if (!\tao_helpers_Request::isAjax()) {
+            throw new \common_exception_IsAjaxAction(__FUNCTION__);
+        }
+
+        if(!$this->hasRequestParameter('test')){
+            throw new \common_exception_MissingParameter('test');
+        }
+
+        if(!$this->hasRequestParameter('section')){
+            throw new \common_exception_MissingParameter('section');
+        }
+
+        $blueprint = $this->testSectionLinkService->getBlueprintByTestSection($this->getRequestParameter('test'), $this->getRequestParameter('section'));
+
+        if(!empty($blueprint)){
+            $returnValue = ['text' => $blueprint->getLabel(), 'uri' => $blueprint->getUri()];
+        }
+        $this->returnJson($returnValue);
     }
 
 }

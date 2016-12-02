@@ -1,8 +1,9 @@
 <?xml version="1.0" encoding="utf-8"?>
-<!DOCTYPE structures SYSTEM "../doc/structures.dtd">
+<!DOCTYPE structures SYSTEM "../../tao/doc/structures.dtd">
 <structures>
 	<structure id="taoBlueprints_main" name="Blueprints" level="15" group="main">
 		<description />
+                <icon id="icon-map-o"/>
 		<sections>
 			<section id="taoBlueprints_main" name="Blueprint" url="/taoBlueprints/Blueprints/index">
 				<trees>

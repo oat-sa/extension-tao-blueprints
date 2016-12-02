@@ -1,0 +1,19 @@
+[{
+  "uri": "http://taotesting.com/foo#Identifier",
+  "label": "Identifier"
+}, {
+  "uri": "http://taotesting.com/foo#Level",
+  "label": "Level"
+}, {
+  "uri": "http://taotesting.com/foo#Category",
+  "label": "Category"
+}, {
+  "uri": "http://taotesting.com/foo#Status",
+  "label": "Status"
+}, {
+  "uri": "http://taotesting.com/foo#Grade",
+  "label": "Grade"
+}, {
+  "uri": "http://taotesting.com/foo#Target",
+  "label": "Target"
+}]

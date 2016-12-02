@@ -27,10 +27,10 @@ return array(
     'label'       => 'Blueprints Extension',
     'description' => 'Extension to manage Test Blueprints',
     'license'     => 'GPL-2.0',
-    'version'     => '0.2.0',
+    'version'     => '0.6.1',
     'author'      => 'Open Assessment Technologies SA',
     'requires' => [
-        'tao' => '>=7.29.0'
+        'tao' => '>=7.35.0'
     ],
     'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#taoBlueprintsManager',
     'acl' => array(
@@ -40,9 +40,11 @@ return array(
         'rdf' => array(
             dirname(__FILE__) . '/install/ontology/blueprints.rdf',
             dirname(__FILE__) . '/install/ontology/indexation.rdf',
+            dirname(__FILE__) . '/install/ontology/taotests.rdf',
         ),
         'php' => array(
             \oat\taoBlueprints\scripts\install\InitBlueprintFilesystem::class,
+            \oat\taoBlueprints\scripts\install\InitTestSectionLink::class,
         )
     ),
     'uninstall' => array(

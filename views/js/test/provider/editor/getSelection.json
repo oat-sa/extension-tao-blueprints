@@ -1,0 +1,25 @@
+{
+  "success": true,
+  "data": {
+    "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langde-DE": {
+      "label": "German",
+      "value": 0
+    },
+    "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langen-US": {
+      "label": "English",
+      "value": 0
+    },
+    "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langes-ES": {
+      "label": "Spanish",
+      "value": 0
+    },
+    "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langfr-FR": {
+      "label": "French",
+      "value": 0
+    },
+    "http:\/\/www.tao.lu\/Ontologies\/TAO.rdf#Langit-IT": {
+      "label": "Italian",
+      "value": 0
+    }
+  }
+}

@@ -21,7 +21,9 @@
 namespace oat\taoBlueprints\scripts\update;
 
 use oat\tao\scripts\update\OntologyUpdater;
+use oat\taoBlueprints\model\TestSectionLinkService;
 use oat\taoBlueprints\scripts\install\InitBlueprintFilesystem;
+use oat\taoBlueprints\scripts\install\InitTestSectionLink;
 
 class Updater extends \common_ext_ExtensionUpdater
 {
@@ -39,5 +41,20 @@ class Updater extends \common_ext_ExtensionUpdater
 
             $this->setVersion('0.2.0');
         }
+
+        $this->skip('0.2.0', '0.3.0');
+        
+        if ($this->isVersion('0.3.0')) {
+
+            OntologyUpdater::syncModels();
+
+            $script = new InitTestSectionLink();
+            $script->setServiceLocator($this->getServiceManager());
+            $script([]);
+
+            $this->setVersion('0.4.0');
+        }
+
+        $this->skip('0.4.0', '0.6.1');
     }
 }
