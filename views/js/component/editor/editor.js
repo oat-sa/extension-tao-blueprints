@@ -133,7 +133,7 @@ define([
                 var self       = this;
                 var $component = this.getElement();
 
-                $distributorContainer      = $('.distributior-container', $component);
+                $distributorContainer      = $('.distributor-container', $component);
                 $propertySelectorContainer = $('.property-selector-container', $component);
 
                 distributor = distributorComponent($distributorContainer, _.pick(config, 'data'));

@@ -87,7 +87,7 @@ define([
                             provider
                                 .save(uri, values)
                                 .then(function(){
-                                    feedback.success(__('Blueprint saved'));
+                                    feedback().success(__('Blueprint saved'));
                                 })
                                 .catch(onError);
                         });
