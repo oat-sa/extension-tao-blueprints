@@ -33,7 +33,7 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  * 
  * A Service implementation dedicated to manage blueprints across the extension.
  *
- * @author Camille Moyon
+ * @author Antoine Robin <antoine@taotesting.com>
  * @package oat\taoBlueprints\model
  */
 class TestSectionLinkService extends ConfigurableService
