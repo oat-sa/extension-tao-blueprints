@@ -44,6 +44,19 @@ class JsonStorage extends FileStorage
     }
 
     /**
+     * Save a json_encoded content for a given blueprint
+     *
+     * @param \core_kernel_classes_Resource $blueprint
+     * @param $content
+     * @return boolean
+     */
+    public function setContent(\core_kernel_classes_Resource $blueprint, $content)
+    {
+        $content = json_encode($content, JSON_PRETTY_PRINT);
+        return parent::setContent($blueprint, $content);
+    }
+
+    /**
      * Get the default content for a blueprint file
      *
      * @return string

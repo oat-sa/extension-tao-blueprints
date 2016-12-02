@@ -104,6 +104,18 @@ abstract class FileStorage extends ConfigurableService implements Storage
     }
 
     /**
+     * Save a content for a given blueprint
+     *
+     * @param \core_kernel_classes_Resource $blueprint
+     * @param array $content
+     * @return boolean
+     */
+    public function setContent(\core_kernel_classes_Resource $blueprint, $content)
+    {
+        return $this->getFile($blueprint)->write($content);
+    }
+
+    /**
      * Delete a blueprint
      * 
      * Delete content by removing file & ontology reference
