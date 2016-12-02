@@ -1,0 +1,43 @@
+<?xml version="1.0"?>
+<rdf:RDF xmlns:rdf="http://www.w3.org/1999/02/22-rdf-syntax-ns#"
+         xmlns:rdfs="http://www.w3.org/2000/01/rdf-schema#"
+         xml:base="http://www.taotesting.com/ontologies/blueprints.rdf#"
+         xmlns:generis="http://www.tao.lu/Ontologies/generis.rdf#"
+         >
+
+    <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#TestSectionLink">
+        <rdfs:label xml:lang="en-US">Link</rdfs:label>
+        <rdfs:comment xml:lang="en-US">Link between test, section and blueprint</rdfs:comment>
+        <rdfs:subClassOf rdf:resource="http://www.tao.lu/Ontologies/TAO.rdf#TAOObject"/>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#AssociatedBlueprint">
+        <rdf:type>http://www.w3.org/1999/02/22-rdf-syntax-ns#Property</rdf:type>
+        <rdfs:label xml:lang="en-US">Associated Blueprint</rdfs:label>
+        <rdfs:comment xml:lang="en-US">Associated Blueprint</rdfs:comment>
+        <generis:is_language_dependent>http://www.tao.lu/Ontologies/generis.rdf#False</generis:is_language_dependent>
+        <rdfs:domain>http://www.taotesting.com/ontologies/blueprint.rdf#TestSectionLink</rdfs:domain>
+        <rdfs:range>http://www.taotesting.com/ontologies/blueprint.rdf#Blueprint</rdfs:range>
+    </rdf:Description>
+
+
+    <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#AssociatedSection">
+        <rdf:type>http://www.w3.org/1999/02/22-rdf-syntax-ns#Property</rdf:type>
+        <rdfs:label xml:lang="en-US">Section</rdfs:label>
+        <rdfs:comment xml:lang="en-US">Section</rdfs:comment>
+        <generis:Multiple rdf:resource="http://www.tao.lu/Ontologies/generis.rdf#False"/>
+        <generis:is_language_dependent>http://www.tao.lu/Ontologies/generis.rdf#False</generis:is_language_dependent>
+        <rdfs:domain>http://www.tao.lu/Ontologies/TAOTest.rdf#TestSectionLink</rdfs:domain>
+        <rdfs:range>http://www.w3.org/2000/01/rdf-schema#Literal</rdfs:range>
+    </rdf:Description>
+
+    <rdf:Description rdf:about="http://www.taotesting.com/ontologies/blueprint.rdf#AssociatedTest">
+        <rdf:type>http://www.w3.org/1999/02/22-rdf-syntax-ns#Property</rdf:type>
+        <rdfs:label xml:lang="en-US">Test</rdfs:label>
+        <rdfs:comment xml:lang="en-US">Test</rdfs:comment>
+        <generis:is_language_dependent>http://www.tao.lu/Ontologies/generis.rdf#False</generis:is_language_dependent>
+        <rdfs:domain>http://www.tao.lu/Ontologies/TAOTest.rdf#TestSectionLink</rdfs:domain>
+        <rdfs:range>http://www.tao.lu/Ontologies/TAOTest.rdf#Test</rdfs:range>
+    </rdf:Description>
+
+</rdf:RDF>

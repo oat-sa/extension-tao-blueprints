@@ -40,13 +40,15 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
     use OntologyAwareTrait;
     use ServiceLocatorAwareTrait;
 
+    const PROPERTY_BLUEPRINT_IDENTIFIER = "http://www.taotesting.com/ontologies/blueprint.rdf#identifier";
+
+
     /**
      * Service to handle blueprint files storage
      *
      * @var Storage
      */
     protected $fileStorage;
-
     /**
      * Service to handle ontology list
      *
@@ -233,6 +235,25 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
             $this->fileStorage = $this->getServiceLocator()->get(Storage::SERVICE_ID);
         }
         return $this->fileStorage;
+    }
+
+    /**
+     * @param $identifier
+     * @param $limit
+     * @return array
+     */
+    public function getBlueprintsByIdentifier($identifier, $limit = 20)
+    {
+        $blueprints = $this->getRootClass()->searchInstances(
+            [
+                self::PROPERTY_BLUEPRINT_IDENTIFIER => $identifier
+            ],
+            [
+                'limit' => $limit
+            ]
+        );
+
+        return $blueprints;
     }
 
     /**
