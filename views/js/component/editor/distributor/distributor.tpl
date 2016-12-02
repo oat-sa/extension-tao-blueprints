@@ -1,8 +1,10 @@
 <section class="distributor">
+    {{#if data.property.label}}
     <header class="row">
         <div class="label">{{data.property.label}}</div>
         <div class="count">{{__ "Item Count" }}</div>
     </header>
+    {{/if}}
     <ul>
     {{#each data.selection}}
         <li class="row" data-uri="{{@key}}">
@@ -12,7 +14,7 @@
             </div>
         </li>
     {{else}}
-        <li><em>
+        <li class="empty"><em>
         {{#if ../data.property.label}}
             {{../data.property.label}} {{__ 'has no resources.'}}
         {{else}}
