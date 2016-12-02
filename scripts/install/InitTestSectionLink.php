@@ -21,7 +21,6 @@
 namespace oat\taoBlueprints\scripts\install;
 
 use oat\oatbox\extension\InstallAction;
-use oat\taoBlueprints\model\storage\Storage;
 use oat\taoBlueprints\model\TestSectionLinkService;
 
 class InitTestSectionLink extends InstallAction
@@ -31,7 +30,7 @@ class InitTestSectionLink extends InstallAction
         // Create blueprint storage with blueprint filesystem
         $service = new TestSectionLinkService();
         $service->setServiceManager($this->getServiceManager());
-        $this->getServiceManager()->register(Storage::SERVICE_ID, $service);
+        $this->getServiceManager()->register(TestSectionLinkService::SERVICE_ID, $service);
 
         return new \common_report_Report(\common_report_Report::TYPE_SUCCESS, 'Test Section link service registered.');
     }
