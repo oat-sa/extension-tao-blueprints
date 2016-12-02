@@ -120,7 +120,8 @@ class Blueprints extends \tao_actions_RdfController
 
         $this->setData('formTitle', __('Edit Blueprint'));
         $this->setData('myForm', $myForm->render());
-        $this->setView('form.tpl', 'tao');
+        $this->setData('uri', $instance->getUri());
+        $this->setView('form_blueprints.tpl', 'taoBlueprints');
     }
 
     /**

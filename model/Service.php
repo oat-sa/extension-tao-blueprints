@@ -57,6 +57,16 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
     protected $listService;
 
     /**
+     * Properties to exclude from the selection
+     *
+     * @var string[] 
+     */
+    private static $excludedProperties = [
+        'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemContent',
+        'http://www.tao.lu/Ontologies/TAOItem.rdf#ItemModel'
+    ];
+
+    /**
      * Get blueprint root class
      *
      * @return \core_kernel_classes_Class
@@ -105,7 +115,12 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
         $result = $search->getGateway()->search($queryBuilder);
 
         foreach ($result as $raw) {
-            $properties[$raw->getUri()] = $raw->getLabel();
+            if(!in_array($raw->getUri(), self::$excludedProperties)){
+                $properties[] = [
+                    'uri' => $raw->getUri(),
+                    'label' => $raw->getLabel()
+                ];
+            }
         }
 
         return $properties;

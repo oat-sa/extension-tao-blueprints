@@ -1,0 +1,31 @@
+{
+  "uri": "http://my-tao.com#Blueprint1",
+  "identifier": "boom_truck_v2",
+  "label": "Boom Truck",
+  "property": {
+    "uri": "http://www.my-tao.com#topicArea",
+    "label": "Topic Area"
+  },
+  "selection": {
+    "http://www.my-tao.com#federalStateRegulation": {
+      "label": "Federal & State Regulation",
+      "value": 4
+    },
+    "http://www.my-tao.com#principlesOfCraningOperations": {
+      "label": "Principles of Craning Operations",
+      "value": 5
+    },
+    "http://www.my-tao.com#generalCraneRelatedTermiology": {
+      "label": "General Crane Related Terminology",
+      "value": 4
+    },
+    "http://www.my-tao.com#groundStability": {
+      "label": "Ground stability",
+      "value": 1
+    },
+    "http://www.my-tao.com#communicationsSignaling": {
+      "label": "Communication & Signaling",
+      "value": 2
+    }
+  }
+}
