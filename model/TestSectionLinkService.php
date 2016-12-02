@@ -23,6 +23,7 @@ namespace oat\taoBlueprints\model;
 
 use oat\generis\model\kernel\persistence\smoothsql\search\ComplexSearchService;
 use oat\generis\model\OntologyAwareTrait;
+use oat\oatbox\service\ConfigurableService;
 use oat\taoBlueprints\model\storage\Storage;
 use Zend\ServiceManager\ServiceLocatorAwareInterface;
 use Zend\ServiceManager\ServiceLocatorAwareTrait;
@@ -35,11 +36,11 @@ use Zend\ServiceManager\ServiceLocatorAwareTrait;
  * @author Camille Moyon
  * @package oat\taoBlueprints\model
  */
-class TestSectionLinkService extends \tao_models_classes_ClassService implements ServiceLocatorAwareInterface
+class TestSectionLinkService extends ConfigurableService
 {
     use OntologyAwareTrait;
-    use ServiceLocatorAwareTrait;
 
+    const SERVICE_ID = 'taoBlueprints/TestSectionLink';
 
     const CLASS_BLUEPRINT_SECTION_TEST = "http://www.taotesting.com/ontologies/blueprint.rdf#TestSectionLink";
 
@@ -51,17 +52,21 @@ class TestSectionLinkService extends \tao_models_classes_ClassService implements
 
 
     /**
-     * Get blueprint root class
+     * Get Test section link root class
      *
      * @return \core_kernel_classes_Class
      */
-    public function getRootClass()
+    private function getRootClass()
     {
         return $this->getClass(self::CLASS_BLUEPRINT_SECTION_TEST);
     }
 
 
     /**
+     * get blueprint by test section
+     *
+     * Get the blueprint associated to a test and a section
+     *
      * @param $test
      * @param $section
      * @return \core_kernel_classes_Resource|null
@@ -88,7 +93,16 @@ class TestSectionLinkService extends \tao_models_classes_ClassService implements
     }
 
 
-
+    /**
+     * set blueprint for test and section
+     *
+     * Associate a blueprint to a section and a test
+     *
+     * @param $test
+     * @param $section
+     * @param $blueprint
+     * @return bool
+     */
     public function setBlueprintForTestSection($test, $section, $blueprint)
     {
 
@@ -123,6 +137,14 @@ class TestSectionLinkService extends \tao_models_classes_ClassService implements
 
     }
 
+    /**
+     * Remove blueprint associated
+     *
+     * Remove the blueprint associated to a test and a section
+     * @param $test
+     * @param $section
+     * @return bool
+     */
     public function removeBlueprintForTestSection($test, $section)
     {
 
@@ -146,7 +168,6 @@ class TestSectionLinkService extends \tao_models_classes_ClassService implements
         }
 
         return true;
-
     }
 
 }
