@@ -30,7 +30,7 @@ return array(
     'version'     => '0.6.0',
     'author'      => 'Open Assessment Technologies SA',
     'requires' => [
-        'tao' => '>=7.29.0'
+        'tao' => '>=7.35.0'
     ],
     'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#taoBlueprintsManager',
     'acl' => array(
