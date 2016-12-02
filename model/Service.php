@@ -195,6 +195,36 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
     }
 
     /**
+     * Check if matrix is saved and store it to blueprint content
+     *
+     * @param $uri
+     * @param array $matrix
+     * @return \common_report_Report
+     */
+    public function saveBlueprintsMatrix($uri, array $matrix)
+    {
+        $blueprints = $this->getResource($uri);
+        if (! $blueprints->exists()) {
+            return \common_report_Report::createFailure(__('Unable to find blueprint to save matrix.'));
+        }
+
+        foreach ($matrix as $selection => &$value) {
+            $value = intval($value);
+            if (! $this->getResource($selection)->exists() || $value >= 0) {
+                return \common_report_Report::createFailure(__('Matrix is not correctly set.'));
+            }
+        }
+
+        $content = $this->getFileStorage()->getContent($blueprints);
+        $content['selection'] = $matrix;
+        if ($this->getFileStorage()->setContent($blueprints, $content)) {
+            return \common_report_Report::createSuccess(__('Blueprint successfully saved.'));
+        }
+
+        return \common_report_Report::createFailure(__('Error on saving blueprint content successfully saved.'));
+    }
+
+    /**
      * Get the service to handle blueprint files
      *
      * @return Storage
