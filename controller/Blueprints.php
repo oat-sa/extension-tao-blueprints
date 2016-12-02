@@ -23,6 +23,7 @@ namespace oat\taoBlueprints\controller;
 
 use oat\generis\model\OntologyAwareTrait;
 use oat\taoBlueprints\model\Service;
+use oat\taoBlueprints\model\TestSectionLinkService;
 
 /**
  * Blueprints controller
@@ -36,6 +37,9 @@ class Blueprints extends \tao_actions_RdfController
 {
     use OntologyAwareTrait;
 
+    /** @var TestSectionLinkService  $testSectionLinkService */
+    private $testSectionLinkService = null;
+
     /**
      * Blueprints constructor.
      * Set resource service
@@ -43,7 +47,9 @@ class Blueprints extends \tao_actions_RdfController
     public function __construct()
     {
         $this->service = Service::singleton();
+        $this->testSectionLinkService = TestSectionLinkService::singleton();
         $this->getServiceManager()->propagate($this->service);
+        $this->getServiceManager()->propagate($this->testSectionLinkService);
     }
 
     /**
@@ -168,7 +174,7 @@ class Blueprints extends \tao_actions_RdfController
 
         $returnValue = array();
         foreach($blueprints as $blueprint){
-            $returnValue['results'][] = ['name' => $blueprint->getLabel(), 'id' => $blueprint->getUri()];
+            $returnValue['results'][] = ['text' => $blueprint->getLabel(), 'id' => $blueprint->getUri()];
         }
 
         $this->returnJson($returnValue);
@@ -179,11 +185,11 @@ class Blueprints extends \tao_actions_RdfController
      */
     public function getBlueprintsByTestSection()
     {
+        $returnValue = [];
         if (!\tao_helpers_Request::isAjax()) {
             throw new \common_exception_IsAjaxAction(__FUNCTION__);
         }
 
-        \common_Logger::w(print_r($this->getRequestParameters(),true));
         if(!$this->hasRequestParameter('test')){
             throw new \common_exception_MissingParameter('test');
         }
@@ -192,9 +198,12 @@ class Blueprints extends \tao_actions_RdfController
             throw new \common_exception_MissingParameter('section');
         }
 
-        $blueprint = $this->getClassService()->getBlueprintsByTestSection($this->getRequestParameter('test'), $this->getRequestParameter('section'));
+        $blueprint = $this->testSectionLinkService->getBlueprintByTestSection($this->getRequestParameter('test'), $this->getRequestParameter('section'));
 
-        $this->returnJson(['name' => $blueprint->getLabel(), 'id' => $blueprint->getUri()]);
+        if(!empty($blueprint)){
+            $returnValue = ['text' => $blueprint->getLabel(), 'uri' => $blueprint->getUri()];
+        }
+        $this->returnJson($returnValue);
     }
 
 }
