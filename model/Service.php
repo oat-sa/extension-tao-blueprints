@@ -203,22 +203,22 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
     {
         $blueprints = $this->getResource($uri);
         if (! $blueprints->exists()) {
-            return \common_report_Report::createFailure('Unable to find blueprint to save matrix.');
+            return \common_report_Report::createFailure(__('Unable to find blueprint to save matrix.'));
         }
 
         foreach ($matrix as $selection => $value) {
             if (! $this->getResource($selection)->exists() || intval($value) == 0 ) {
-                return \common_report_Report::createFailure('Matrix is not correctly set.');
+                return \common_report_Report::createFailure(__('Matrix is not correctly set.'));
             }
         }
 
         $content = $this->getFileStorage()->getContent($blueprints);
         $content['selection'] = $matrix;
         if ($this->getFileStorage()->setContent($blueprints, $content)) {
-            return \common_report_Report::createSuccess('Blueprint successfully saved.');
+            return \common_report_Report::createSuccess(__('Blueprint successfully saved.'));
         }
 
-        return \common_report_Report::createFailure('Error on saving blueprint content successfully saved.');
+        return \common_report_Report::createFailure(__('Error on saving blueprint content successfully saved.'));
     }
 
     /**
