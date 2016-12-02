@@ -42,7 +42,7 @@ define([
         data : {
             property: false,
             availableProperties : {},
-            selecttion : {}
+            selection : {}
         }
     };
 

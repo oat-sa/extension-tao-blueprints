@@ -24,7 +24,7 @@ module.exports = function(grunt) {
             }
         },
         watch: {
-            taonccereliverytest : {
+            taoblueprintstest : {
                 files : [testRunners, testFiles],
                 tasks : ['qunit:taoblueprints'],
                 options : {
