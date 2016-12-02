@@ -44,6 +44,7 @@ return array(
         ),
         'php' => array(
             \oat\taoBlueprints\scripts\install\InitBlueprintFilesystem::class,
+            \oat\taoBlueprints\scripts\install\InitTestSectionLink::class,
         )
     ),
     'uninstall' => array(
