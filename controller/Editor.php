@@ -105,8 +105,8 @@ class Editor extends \tao_actions_CommonModule
             if(isset($values['selection']) && isset($values['property'])){
 
                 $matrix = [];
-                foreach($values['selection'] as $uri => $value){
-                    $matrix[$uri] = $value['value'];
+                foreach($values['selection'] as $propUri => $value){
+                    $matrix[$propUri] = $value['value'];
                 }
 
                 $report = $this->blueprintsService->saveBlueprintsMatrix($uri, $matrix);
