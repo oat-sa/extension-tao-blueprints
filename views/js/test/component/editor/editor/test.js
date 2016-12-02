@@ -29,14 +29,18 @@ define([
 ], function($, editorComponent, samples, selection) {
     'use strict';
 
+    var config = {
+        data : samples
+    };
+
     QUnit.module('API');
 
     QUnit.test('module', function(assert) {
         QUnit.expect(3);
 
         assert.equal(typeof editorComponent, 'function', "The editorComponent module exposes a function");
-        assert.equal(typeof editorComponent(), 'object', "The editorComponent factory produces an object");
-        assert.notStrictEqual(editorComponent(), editorComponent(), "The editorComponent factory provides a different object on each call");
+        assert.equal(typeof editorComponent(null, config), 'object', "The editorComponent factory produces an object");
+        assert.notStrictEqual(editorComponent(null, config), editorComponent(null, config), "The editorComponent factory provides a different object on each call");
     });
 
     QUnit.cases([
@@ -55,7 +59,7 @@ define([
         { name : 'setTemplate',  title : 'setTemplate' }
     ])
     .test('component ', function(data, assert) {
-        var instance = editorComponent();
+        var instance = editorComponent(null, config);
         assert.equal(typeof instance[data.name], 'function', 'The editorComponent instance exposes a "' + data.title + '" function');
     });
 
@@ -65,44 +69,38 @@ define([
         { name : 'trigger', title : 'trigger' }
     ])
     .test('eventifier ', function(data, assert) {
-        var instance = editorComponent();
+        var instance = editorComponent(null, config);
         assert.equal(typeof instance[data.name], 'function', 'The editorComponent instance exposes a "' + data.title + '" function');
     });
 
     QUnit.cases([
+        { name : 'refresh',   title : 'refresh' },
         { name : 'getValues', title : 'getValues' }
     ])
     .test('spec ', function(data, assert) {
-        var instance = editorComponent();
+        var instance = editorComponent(null, config);
         assert.equal(typeof instance[data.name], 'function', 'The editorComponent instance exposes a "' + data.title + '" function');
     });
 
-/*
+
     QUnit.module('Behavior');
 
     QUnit.asyncTest('DOM rendering', function(assert) {
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(12);
+        QUnit.expect(7);
 
-        editorComponent( $container, { data : samples } )
+        editorComponent( $container, config )
             .on('render', function(){
-                var $element = $('.editor', $container);
+                var $element = $('.blueprint-editor', $container);
 
                 assert.equal($element.length, 1, 'The container has the component root element');
                 assert.ok($element.hasClass('rendered'), 1, 'The component root element has the rendered class');
 
-                assert.equal($('header', $element).length, 1, 'The component has an header element');
-                assert.equal($('ul', $element).length, 1, 'The component has an list element');
-                assert.equal($('ul li', $element).length, 5, 'The component has the correct number of items');
-
-                assert.equal($('ul li:first-child', $element).data('uri'),  'http://www.my-tao.com#federalStateRegulation', 'The item has the correct URI');
-                assert.equal($('ul li:first-child .label', $element).length, 1, 'The item has a label element');
-                assert.equal($('ul li:first-child .label', $element).text(), 'Federal & State Regulation', 'The item has the correct label');
-
-                assert.equal($('ul li:first-child .count', $element).length, 1, 'The item has a count element');
-                assert.equal($('ul li:first-child .count input', $element).length, 1, 'The item has an input element');
-                assert.equal($('ul li:first-child .count input', $element).val(), '4', 'The item input has the correct value');
+                assert.equal($('.property-selector-container', $element).length, 1, 'The component has property selector container element');
+                assert.equal($('.distributor-container', $element).length, 1, 'The component has the distributor container element');
+                assert.equal($('.controls', $element).length, 1, 'The component has the controls container element');
+                assert.equal($('.controls .saver', $element).length, 1, 'The component has the saver element');
 
                 assert.deepEqual($element[0], this.getElement()[0], 'The element is the one bound to the component');
 
@@ -115,15 +113,15 @@ define([
 
         QUnit.expect(4);
 
-        editorComponent( $container, { data : samples } )
+        editorComponent( $container, config )
             .on('init', function(){
                 assert.ok( ! this.is('rendered'), 'The component is not yet rendered');
-                assert.equal($('.editor', $container).length, 0, 'The component is not yet appended');
+                assert.equal($('.blueprint-editor', $container).length, 0, 'The component is not yet appended');
             })
             .on('render', function(){
 
                 assert.ok(this.is('rendered'), 'The component is rendered');
-                assert.equal($('.editor', $container).length, 1, 'The component is  appended');
+                assert.equal($('.blueprint-editor', $container).length, 1, 'The component is  appended');
 
                 this.destroy();
             })
@@ -135,30 +133,26 @@ define([
     QUnit.asyncTest('disabling', function(assert) {
         var $container = $('#qunit-fixture');
 
-        QUnit.expect(10);
+        QUnit.expect(7);
 
-        editorComponent( $container, { data : samples } )
+        editorComponent( $container, config )
             .on('render', function(){
                 var $element = this.getElement();
-                var $input   = $('li [data-increment]:last-child', $element);
 
                 assert.ok(this.is('rendered'), 'The component is rendered');
                 assert.ok( ! this.is('disabled'), 'The component starts enabled');
                 assert.ok( ! $element.hasClass('disabled'), 'The component starts enabled');
-                assert.ok( ! $input.hasClass('disabled'), 'The input starts enabled');
 
                 this.disable();
             })
             .on('disable', function(){
                 var self     = this;
                 var $element = this.getElement();
-                var $input   = $('li [data-increment]:last-child', $element);
 
                 //push the check after the other handlers exec
                 setTimeout(function(){
                     assert.ok(self.is('disabled'), 'The component is now disabled');
                     assert.ok($element.hasClass('disabled'), 'The component is now disabled');
-                    assert.ok( ! $input.hasClass('disabled'), 'The input is now disabled');
 
                     self.enable();
                 }, 1);
@@ -166,14 +160,11 @@ define([
             .after('enable', function(){
                 var self     = this;
                 var $element = this.getElement();
-                var $input   = $('li [data-increment]:last-child', $element);
 
                 //push the check after the other handlers exec
                 setTimeout(function(){
                     assert.ok( ! self.is('disabled'), 'The component is now enabled');
                     assert.ok( ! $element.hasClass('disabled'), 'The component is now enabled');
-                    assert.ok( ! $input.hasClass('disabled'), 'The input is now enabled');
-
                     QUnit.start();
                 }, 1);
             });
@@ -181,43 +172,48 @@ define([
 
     QUnit.asyncTest('change values', function(assert) {
         var $container = $('#qunit-fixture');
-        var uri = 'http://www.my-tao.com#principlesOfCraningOperations';
 
         QUnit.expect(9);
 
-        editorComponent( $container, { data : samples } )
+        editorComponent( $container, config )
             .on('render', function(){
-                var $element = this.getElement();
-                var $item    = $('ul li:nth-child(2)', $element);
-                var $input   = $('[data-increment]', $item);
-                var values   = this.getValues();
+                var self = this;
+                setTimeout(function(){
+                    var $element  = self.getElement();
+                    var $selector = $('.property-selector', $element);
+                    var values    = self.getValues();
 
-                assert.ok(this.is('rendered'), 'The component is rendered');
-                assert.equal($item.length, 1, 'The item exists');
-                assert.equal($item.data('uri'), uri, 'The item URI is correct');
-                assert.equal($input.length, 1, 'The input exists');
+                    assert.ok(self.is('rendered'), 'The component is rendered');
+                    assert.equal($selector.length, 1, 'The selecor exists');
 
-                assert.equal($input.val(), '5', 'The input has the correct value');
+                    assert.deepEqual(values.property, samples.property, 'The property value matches the default config');
+                    assert.deepEqual(values.selection, samples.selection, 'The selection value matches the default config');
 
-                assert.equal(values[uri], 5, 'The values matches');
+                    $('.selected', $selector).click();
 
-
-                $input.val('7').trigger('change');
+                    setTimeout(function(){
+                        $('.options li:first-child a', $selector).click();
+                    }, 500);
+                }, 50);
             })
-            .on('change', function(values){
-                var $element = this.getElement();
-                var $item    = $('ul li:nth-child(2)', $element);
-                var $input   = $('[data-increment]', $item);
+            .on('propertyChange', function(uri, label){
+                assert.equal(uri, 'http://taotesting.com/foo#Identifier', 'The selected URI is correct');
+                assert.equal(label, 'Identifier', 'The selected label is correct');
 
-                assert.equal($input.val(), '7', 'The input has changed value');
-                assert.deepEqual(values, this.getValues(), 'The values given in parameter matches the component values');
-                assert.equal(values[uri], 7, 'The values matches');
+                this.refresh(uri, label, selection);
+            })
+            .on('refresh', function(){
+                var values    = this.getValues();
+
+                assert.equal(values.property.uri, 'http://taotesting.com/foo#Identifier', 'The selected URI is correct');
+                assert.equal(values.property.label, 'Identifier', 'The selected label is correct');
+                assert.deepEqual(values.selection, selection, 'The selection value matches the default config');
 
                 QUnit.start();
             });
     });
 
-*/
+
     QUnit.module('Visual');
 
     QUnit.asyncTest('playground', function(assert) {

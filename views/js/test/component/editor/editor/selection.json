@@ -1,14 +1,14 @@
  {
    "http://www.my-tao.com#Beginner": {
      "label": "Beginner",
-     "value": 0
+     "value": "0"
    },
    "http://www.my-tao.com#Medium": {
      "label": "Medium",
-     "value": 0
+     "value": "0"
    },
    "http://www.my-tao.com#Hard": {
      "label": "Hard",
-     "value": 0
+     "value": "0"
    }
  }
