@@ -172,7 +172,7 @@ class Blueprints extends \tao_actions_RdfController
 
         $blueprints = $this->getClassService()->getBlueprintsByIdentifier($this->getRequestParameter('identifier'));
 
-        $returnValue = array();
+        $returnValue['results'] = [];
         foreach($blueprints as $blueprint){
             $returnValue['results'][] = ['text' => $blueprint->getLabel(), 'id' => $blueprint->getUri()];
         }
