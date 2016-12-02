@@ -40,13 +40,15 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
     use OntologyAwareTrait;
     use ServiceLocatorAwareTrait;
 
+    const PROPERTY_BLUEPRINT_IDENTIFIER = "http://www.taotesting.com/ontologies/blueprint.rdf#identifier";
+
+
     /**
      * Service to handle blueprint files storage
      *
      * @var Storage
      */
     protected $fileStorage;
-
     /**
      * Service to handle ontology list
      *
@@ -222,8 +224,8 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
         }
 
         foreach ($matrix as $selection => &$value) {
-            $value = intval($value);
-            if (! $this->getResource($selection)->exists() || $value >= 0) {
+            $value = (intval($value) > 0) ? intval($value) : 0;
+            if (! $this->getResource($selection)->exists()) {
                 return \common_report_Report::createFailure(__('Matrix is not correctly set.'));
             }
         }
@@ -234,9 +236,36 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
             return \common_report_Report::createSuccess(__('Blueprint successfully saved.'));
         }
 
-        return \common_report_Report::createFailure(__('Error on saving blueprint content successfully saved.'));
+        return \common_report_Report::createFailure(__('Error on saving blueprint content.'));
     }
 
+    /**
+     * Check if target property exists and save it into blueprints content
+     *
+     * @param string $uri
+     * @param string $property
+     * @return \common_report_Report
+     */
+    public function saveBlueprintTargetPorperty($uri, $property)
+    {
+        $blueprints = $this->getResource($uri);
+        if (! $blueprints->exists()) {
+            return \common_report_Report::createFailure(__('Unable to find blueprint to save matrix.'));
+        }
+
+        $targetProperty = $this->getResource($uri);
+        if (! $targetProperty->exists()) {
+            return \common_report_Report::createFailure(__('Unable to find target property.'));
+        }
+
+        $content = $this->getFileStorage()->getContent($blueprints);
+        $content['property'] = $property;
+        if ($this->getFileStorage()->setContent($blueprints, $content)) {
+            return \common_report_Report::createSuccess(__('Blueprint target property successfully saved.'));
+        }
+
+        return \common_report_Report::createFailure(__('Error on saving blueprint content.'));
+    }
     /**
      * Get the service to handle blueprint files
      *
@@ -248,6 +277,25 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
             $this->fileStorage = $this->getServiceLocator()->get(Storage::SERVICE_ID);
         }
         return $this->fileStorage;
+    }
+
+    /**
+     * @param $identifier
+     * @param $limit
+     * @return array
+     */
+    public function getBlueprintsByIdentifier($identifier, $limit = 20)
+    {
+        $blueprints = $this->getRootClass()->searchInstances(
+            [
+                self::PROPERTY_BLUEPRINT_IDENTIFIER => $identifier
+            ],
+            [
+                'limit' => $limit
+            ]
+        );
+
+        return $blueprints;
     }
 
     /**
