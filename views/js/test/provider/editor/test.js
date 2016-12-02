@@ -21,7 +21,200 @@
  */
 define([
     'taoBlueprints/provider/editor',
-], function(editorProvider) {
+    'core/promise',
+    'json!taoBlueprints/test/provider/editor/saveSample.json',
+], function(editorProvider, Promise, saveSample) {
     'use strict';
+
+    var testConfig = {
+        get : {
+            url : '/taoBlueprints/views/js/test/provider/editor/get.json'
+        },
+        save : {
+            url : '/taoBlueprints/views/js/test/provider/editor/save.json'
+        },
+        getSelection : {
+            url : '/taoBlueprints/views/js/test/provider/editor/getSelection.json'
+        }
+    };
+
+    QUnit.module('API');
+
+    QUnit.test('module', function(assert) {
+        QUnit.expect(3);
+
+        assert.equal(typeof editorProvider, 'function', "The editorProvider module exposes a function");
+        assert.equal(typeof editorProvider(), 'object', "The editorProvider factory produces an object");
+        assert.notStrictEqual(editorProvider(), editorProvider(), "The editorProvider factory provides a different object on each call");
+    });
+
+    QUnit.test('methods', function(assert) {
+        var provider = editorProvider();
+
+        QUnit.expect(4);
+
+        assert.equal(typeof provider, 'object', "The editorProvider factory produces an object");
+        assert.equal(typeof provider.get, 'function', "The provider exposes the get method");
+        assert.equal(typeof provider.save, 'function', "The provider exposes the save method");
+        assert.equal(typeof provider.getSelection, 'function', "The provider exposes the getSelection method");
+    });
+
+    QUnit.module('get');
+
+    QUnit.asyncTest('success', function(assert) {
+        var p;
+        var provider = editorProvider( testConfig );
+
+        QUnit.expect(3);
+
+        p = provider.get('http://www.my-tao.com#blueprint1');
+
+        assert.ok(p instanceof Promise, 'The method returns a Promise');
+
+        p.then(function(data){
+            assert.equal(typeof data, 'object', 'The method resolve with an object');
+            assert.equal(data.property.uri, 'http://www.my-tao.com#topicArea', 'The method resolve with the correct object');
+            QUnit.start();
+        }).catch(function(err){
+            assert.ok(false, 'The method should not reject : ' + err.message);
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest('no uri', function(assert) {
+        var provider;
+
+        QUnit.expect(2);
+
+        provider = editorProvider( testConfig );
+
+        provider.get().then(function(){
+            assert.ok(false, 'The method must not resolve');
+            QUnit.start();
+        }).catch(function(err){
+            assert.ok(err instanceof TypeError, 'The method rejects');
+            assert.equal(err.message, 'The blueprint URI parameter must be provided', 'The method rejects with the correct message');
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest('empty', function(assert) {
+
+        var provider = editorProvider( {
+            get : {
+                url : '/taoBlueprints/views/js/test/provider/editor/empty.json'
+            }
+        });
+
+        QUnit.expect(1);
+
+        provider.get('http://www.my-tao.com#blueprint1').then(function(data){
+            assert.equal(typeof data, 'undefined', 'The method resolve without content');
+            QUnit.start();
+        }).catch(function(err){
+            assert.ok(false, 'The method should not reject : ' + err.message);
+            QUnit.start();
+        });
+    });
+
+
+    QUnit.module('save');
+
+    QUnit.asyncTest('success', function(assert) {
+        var p, provider;
+
+        QUnit.expect(2);
+
+        provider = editorProvider( testConfig );
+        p = provider.save('http://www.my-tao.com#blueprint1', saveSample);
+
+        assert.ok(p instanceof Promise, 'The method returns a Promise');
+
+        p.then(function(success){
+
+            assert.ok(success, 'The save method succeed');
+
+            QUnit.start();
+        }).catch(function(err){
+            assert.ok(false, 'The method should not reject : ' + err.message);
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest('no uri', function(assert) {
+        var provider;
+
+        QUnit.expect(2);
+
+        provider = editorProvider( testConfig );
+
+        provider.save().then(function(){
+            assert.ok(false, 'The method must not resolve');
+            QUnit.start();
+        }).catch(function(err){
+            assert.ok(err instanceof TypeError, 'The method rejects');
+            assert.equal(err.message, 'The blueprint URI parameter must be provided', 'The method rejects with the correct message');
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest('wrong values', function(assert) {
+        var provider;
+
+        QUnit.expect(2);
+
+        provider = editorProvider( testConfig );
+
+        provider.save('http://www.my-tao.com#blueprint1', { foo : true }).then(function(){
+            assert.ok(false, 'The method must not resolve');
+            QUnit.start();
+        }).catch(function(err){
+            assert.ok(err instanceof TypeError, 'The method rejects');
+            assert.equal(err.message, 'The values parameter must be provided', 'The method rejects with the correct message');
+            QUnit.start();
+        });
+    });
+
+
+    QUnit.module('getSelection');
+
+    QUnit.asyncTest('success', function(assert) {
+        var p;
+        var provider = editorProvider( testConfig );
+
+        QUnit.expect(4);
+
+        p = provider.getSelection('http://www.my-tao.com#target-lang');
+
+        assert.ok(p instanceof Promise, 'The method returns a Promise');
+
+        p.then(function(data){
+            var testUri = 'http://www.tao.lu/Ontologies/TAO.rdf#Langde-DE';
+            assert.equal(typeof data, 'object', 'The method resolve with an object');
+            assert.equal(typeof data[testUri], 'object', 'The expected entry exists');
+            assert.equal(data[testUri].label, 'German', 'The expected entry has the correct label');
+            QUnit.start();
+        }).catch(function(err){
+            assert.ok(false, 'The method should not reject : ' + err.message);
+            QUnit.start();
+        });
+    });
+
+    QUnit.asyncTest('no uri', function(assert) {
+        var provider;
+
+        QUnit.expect(2);
+
+        provider = editorProvider( testConfig );
+
+        provider.getSelection().then(function(){
+            assert.ok(false, 'The method must not resolve');
+            QUnit.start();
+        }).catch(function(err){
+            assert.ok(err instanceof TypeError, 'The method rejects');
+            assert.equal(err.message, 'The property URI parameter must be provided', 'The method rejects with the correct message');
+            QUnit.start();
+        });
+    });
 
 });
