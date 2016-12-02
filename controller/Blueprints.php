@@ -151,4 +151,21 @@ class Blueprints extends \tao_actions_RdfController
         $this->setView('form.tpl', 'tao');
     }
 
+    public function saveBlueprints()
+    {
+        if (! $this->hasRequestParameter('uri') || ! $this->hasRequestParameter('matrix')) {
+            $this->returnJson(['error' => __('Missing parameters missing.')], 400);
+            return;
+        }
+
+        $blueprints = $this->getClass($this->getRequestParameter('uri'));
+        $matrix = json_decode($this->getRequestParameter('matrix'), trues);
+        if (! is_array($matrix)) {
+            $this->returnJson(['error' => __('Blueprints matrix has to be an array.')], 400);
+            return;
+        }
+
+        $this->getClassService()->saveBlueprintsMatrix($blueprints, $matrix);
+    }
+
 }
