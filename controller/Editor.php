@@ -137,7 +137,7 @@ class Editor extends \tao_actions_CommonModule
      * @param string $message the error message (for the user)
      * @param int    $code    the error code (for the devs)
      */
-    private function returnError($message, $code)
+    protected function returnError($message, $code)
     {
         return $this->returnJson([
             'success' => false,
