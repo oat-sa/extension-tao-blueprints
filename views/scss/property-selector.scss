@@ -23,6 +23,23 @@
         }
     }
 
+    .nothing {
+        display: inline-block;
+        position: relative;
+        @include simple-border;
+        border-radius: 3px;
+        padding: 3px 10px;
+        width: 100%;
+        color: $danger;
+        background-color: $uiGeneralContentBg;
+
+        &:before {
+            @include tao-icon-setup;
+            @include icon-danger;
+            margin-right: 3px;
+        }
+    }
+
     .options {
 
         position: absolute;

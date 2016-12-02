@@ -59,12 +59,19 @@ class Editor extends \tao_actions_CommonModule
 
                 $property = $this->blueprintsService->getBlueprintTargetProperty($uri);
                 if(!is_null($property) ){
-                    $blueprintData['propery'] = [
+                    $blueprintData['property'] = [
                         'label' => $property->getLabel(),
                         'uri'   => $property->getUri()
                     ];
                 }
-                $blueprintData['selection'] = $this->blueprintsService->getBlueprintMatrix($uri);
+                $matrix = $this->blueprintsService->getBlueprintMatrix($uri);
+                foreach( $matrix as $resourceUri => $value){
+                    $resource = new \core_kernel_classes_Resource($resourceUri);
+                    $blueprintData['selection'][$resourceUri] = [
+                        'label' => $resource->getLabel(),
+                        'value' => $value
+                    ];
+                }
                 $blueprintData['availableProperties'] = $this->blueprintsService->getNonLiteralItemProperties();
 
                 return $this->returnSuccess($blueprintData);
@@ -107,6 +114,11 @@ class Editor extends \tao_actions_CommonModule
                 $matrix = [];
                 foreach($values['selection'] as $propUri => $value){
                     $matrix[$propUri] = $value['value'];
+                }
+
+                $report = $this->blueprintsService->saveBlueprintTargetPorperty($uri, $values['property']['uri']);
+                if($report->getType() != \common_report_Report::TYPE_SUCCESS){
+                    return $this->returnFailure($report->getMessage(), 412);
                 }
 
                 $report = $this->blueprintsService->saveBlueprintsMatrix($uri, $matrix);

@@ -122,7 +122,9 @@ define([
 
         //defer the init so the consumer can listen for the events
         _.defer(function(){
-            config.tree = buildTree(config.data);
+            if(config.data && _.size(config.data) > 0){
+                config.tree = buildTree(config.data);
+            }
             propertySelector.init(config);
         });
 

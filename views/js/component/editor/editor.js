@@ -155,11 +155,13 @@ define([
                 $('.saver', $component).on('click', function(e){
                     e.preventDefault();
 
-                    /**
-                     * @event editorComponent#save the editor asks you to save it's content
-                     * @param {Object} values - with the selected property and the selection.
-                     */
-                    self.trigger('save', self.getValues());
+                    if (!self.is('disabled')){
+                        /**
+                        * @event editorComponent#save the editor asks you to save it's content
+                        * @param {Object} values - with the selected property and the selection.
+                        */
+                        self.trigger('save', self.getValues());
+                    }
                 });
             })
             .on('disable', function(){
