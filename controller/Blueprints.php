@@ -47,9 +47,8 @@ class Blueprints extends \tao_actions_RdfController
     public function __construct()
     {
         $this->service = Service::singleton();
-        $this->testSectionLinkService = TestSectionLinkService::singleton();
+        $this->testSectionLinkService = $this->getServiceManager()->get(TestSectionLinkService::SERVICE_ID);
         $this->getServiceManager()->propagate($this->service);
-        $this->getServiceManager()->propagate($this->testSectionLinkService);
     }
 
     /**
