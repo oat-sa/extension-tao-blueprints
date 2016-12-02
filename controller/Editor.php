@@ -70,7 +70,7 @@ class Editor extends \tao_actions_CommonModule
                 return $this->returnSuccess($blueprintData);
             }
         }
-        return $this->returnError(__('A blueprint need to be selected first'), 412);
+        return $this->returnFailure(__('A blueprint need to be selected first'), 412);
     }
 
     /**
@@ -91,7 +91,7 @@ class Editor extends \tao_actions_CommonModule
                 }
             }
         }
-        return $this->returnError(__('The property is not found or inacurrate'), 412);
+        return $this->returnFailure(__('The property is not found or inacurrate'), 412);
     }
 
     /**
@@ -102,12 +102,22 @@ class Editor extends \tao_actions_CommonModule
         if($this->hasRequestParameter('uri') && $this->hasRequestParameter('values')) {
             $uri = $this->getRequestParameter('uri');
             $values = $this->getRequestParameter('values');
+            if(isset($values['selection']) && isset($values['property'])){
 
-            \common_Logger::d($uri);
-            \common_Logger::d($values);
-            $this->returnSuccess(true);
+                $matrix = [];
+                foreach($values['selection'] as $uri => $value){
+                    $matrix[$uri] = $value['value'];
+                }
+
+                $report = $this->blueprintsService->saveBlueprintsMatrix($uri, $matrix);
+                if($report->getType() != \common_report_Report::TYPE_SUCCESS){
+                    return $this->returnFailure($report->getMessage(), 412);
+                }
+                return $this->returnSuccess(true);
+            }
+            return $this->returnFailure(__('A blueprint need values'), 412);
         }
-        return $this->returnError(__('A blueprint need to be selected first'), 412);
+        return $this->returnFailure(__('A blueprint need to be selected first'), 412);
     }
 
     /**
@@ -137,7 +147,7 @@ class Editor extends \tao_actions_CommonModule
      * @param string $message the error message (for the user)
      * @param int    $code    the error code (for the devs)
      */
-    protected function returnError($message, $code)
+    protected function returnFailure($message, $code)
     {
         return $this->returnJson([
             'success' => false,
