@@ -27,10 +27,10 @@ return array(
     'label'       => 'Blueprints Extension',
     'description' => 'Extension to manage Test Blueprints',
     'license'     => 'GPL-2.0',
-    'version'     => '0.6.2',
+    'version'     => '1.0.0',
     'author'      => 'Open Assessment Technologies SA',
     'requires' => [
-        'tao' => '>=7.35.0'
+        'tao' => '>=9.0.0'
     ],
     'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#taoBlueprintsManager',
     'acl' => array(
@@ -59,9 +59,6 @@ return array(
 
         #BASE URL (usually the domain root)
         'BASE_URL' => ROOT_URL.'taoBlueprints/',
-
-        #BASE WWW required by JS
-        'BASE_WWW' => ROOT_URL.'taoBlueprints/views/'
     ),
     'extra' => array(
         'structures' => dirname(__FILE__).DIRECTORY_SEPARATOR.'controller'.DIRECTORY_SEPARATOR.'structures.xml',
