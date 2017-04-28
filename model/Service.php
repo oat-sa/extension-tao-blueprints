@@ -199,12 +199,17 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
 
     /**
      * Delete a blueprint & associated storage
+     * Throw an exception if blue print is in use
      *
      * @param \core_kernel_classes_Resource $resource
      * @return bool
+     * @throws \common_Exception
      */
     public function deleteResource(\core_kernel_classes_Resource $resource)
     {
+        if ($this->isIncludedInTestSection($resource)) {
+            throw new \common_Exception(__('Impossible to delete a blueprint in use into test'));
+        }
         $this->getFileStorage()->deleteContent($resource);
         return $resource->delete();
     }
@@ -296,6 +301,28 @@ class Service extends \tao_models_classes_ClassService implements ServiceLocator
         );
 
         return $blueprints;
+    }
+
+    /**
+     * Check if blueprint is in usage into a test section
+     *
+     * @param \core_kernel_classes_Resource $blueprint
+     * @return bool
+     */
+    protected function isIncludedInTestSection(\core_kernel_classes_Resource $blueprint)
+    {
+        /** @var ComplexSearchService $search */
+        $search = $this->getServiceLocator()->get(ComplexSearchService::SERVICE_ID);
+        $queryBuilder = $search->query();
+
+        $query = $search
+            ->searchType($queryBuilder, TestSectionLinkService::CLASS_BLUEPRINT_SECTION_TEST , true)
+            ->add(TestSectionLinkService::PROPERTY_SECTIONTEST_BLUEPRINT)->equals($blueprint->getUri());
+
+        $queryBuilder->setCriteria($query);
+        $results = $search->getGateway()->search($queryBuilder);
+
+        return (bool) ($results->total() > 0);
     }
 
     /**
