@@ -8,19 +8,22 @@
 			<section id="taoBlueprints_main" name="Blueprint" url="/taoBlueprints/Blueprints/index">
 				<trees>
 					<tree name="Blueprints library"
-						  className="Blueprint"
-						  dataUrl="/taoBlueprints/Blueprints/getOntologyData"
-						  rootNode="http://www.taotesting.com/ontologies/blueprint.rdf#Blueprint"
-						  selectClass="blueprint-class-properties"
-						  selectInstance="blueprint-properties"
+                                                className="Blueprint"
+                                                dataUrl="/taoBlueprints/Blueprints/getOntologyData"
+                                                rootNode="http://www.taotesting.com/ontologies/blueprint.rdf#Blueprint"
+                                                selectClass="blueprint-class-properties"
+                                                selectInstance="blueprint-properties"
 					/>
 				</trees>
 				<actions allowClassActions="true">
 					<action id="blueprint-new" name="New blueprint" url="/taoBlueprints/Blueprints/create" context="resource" group="tree" binding="instanciate">
 						<icon id="icon-item"/>
 					</action>
-					<action id="blueprint-class-properties" name="Properties" url="/taoBlueprints/Blueprints/editBlueprintClass" group="content" context="class">
+					<action id="blueprint-class-properties" name="Properties" url="/taoBlueprints/Blueprints/editClassLabel" group="content" context="class">
 						<icon id="icon-edit"/>
+					</action>
+					<action id="blueprint-class-schema" name="Manage Schema" url="/taoBlueprints/Blueprints/editBlueprintClass" group="content" context="class">
+						<icon id="icon-property-add"/>
 					</action>
 					<action id="blueprint-properties" name="Properties"  url="/taoBlueprints/Blueprints/editInstance" group="content" context="instance">
 						<icon id="icon-edit"/>
