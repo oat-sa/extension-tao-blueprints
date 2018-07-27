@@ -27,7 +27,7 @@ return array(
     'label'       => 'Blueprints Extension',
     'description' => 'Extension to manage Test Blueprints',
     'license'     => 'GPL-2.0',
-    'version'     => '1.1.0',
+    'version'     => '1.1.1',
     'author'      => 'Open Assessment Technologies SA',
     'requires' => [
         'tao' => '>=17.2.0'
