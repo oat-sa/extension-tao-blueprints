@@ -1,44 +1,43 @@
+/**
+ * This program is free software; you can redistribute it and/or
+ * modify it under the terms of the GNU General Public License
+ * as published by the Free Software Foundation; under version 2
+ * of the License (non-upgradable).
+ *
+ * This program is distributed in the hope that it will be useful,
+ * but WITHOUT ANY WARRANTY; without even the implied warranty of
+ * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
+ * GNU General Public License for more details.
+ *
+ * You should have received a copy of the GNU General Public License
+ * along with this program; if not, write to the Free Software
+ * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
+ *
+ * Copyright (c) 2014-2018 (original work) Open Assessment Technologies SA;
+ */
+
+/**
+ * configure the extension bundles
+ * @author Bertrand Chevrier <bertrand@taotesting.com>
+ */
 module.exports = function(grunt) {
     'use strict';
 
-    var root        = grunt.option('root');
-    var libs        = grunt.option('mainlibs');
-    var ext         = require(root + '/tao/views/build/tasks/helpers/extensions')(grunt, root);
-    var out         = 'output';
-
     grunt.config.merge({
-        clean: {
-            taoblueprintsbundle : [out],
-        },
-        requirejs : {
-            taoblueprintsbundle : {
-                options: {
-                    baseUrl : '../js',
-                    dir : out,
-                    mainConfigFile : './config/requirejs.build.js',
-                    paths : {
-                        'taoBlueprints' : root + '/taoBlueprints/views/js',
-                        'taoBlueprintsCss' : root + '/taoBlueprints/views/css'
-                    },
-                    modules : [{
-                        name: 'taoBlueprints/controller/routes',
-                        include : ext.getExtensionsControllers(['taoBlueprints']),
-                        exclude : ['mathJax'].concat(libs)
+        bundle : {
+            taoblueprints : {
+                options : {
+                    extension : 'taoBlueprints',
+                    outputDir : 'loader',
+                    bundles : [{
+                        name : 'taoBlueprints',
+                        default : true
                     }]
                 }
-            }
-        },
-        copy : {
-            taoblueprintsbundle : {
-                files: [
-                    { src: [out + '/taoBlueprints/controller/routes.js'],            dest: root + '/taoBlueprints/views/js/controllers.min.js' },
-                    { src: [out + '/taoBlueprints/controller/routes.js.map'],        dest: root + '/taoBlueprints/views/js/controllers.min.js.map' }
-                ]
             }
         }
     });
 
     // bundle task
-    grunt.registerTask('taoblueprintsbundle', ['clean:taoblueprintsbundle', 'requirejs:taoblueprintsbundle', 'copy:taoblueprintsbundle']);
+    grunt.registerTask('taoblueprintsbundle', ['bundle:taoblueprints']);
 };
-
