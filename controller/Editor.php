@@ -14,13 +14,13 @@
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
  *
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *
+ * Copyright (c) 2016-2018 (original work) Open Assessment Technologies SA;
  *
  */
 
 namespace oat\taoBlueprints\controller;
 
+use oat\generis\model\OntologyAwareTrait;
 use oat\taoBlueprints\model\Service;
 
 /**
@@ -33,16 +33,7 @@ use oat\taoBlueprints\model\Service;
  */
 class Editor extends \tao_actions_CommonModule
 {
-    protected $blueprintsService;
-
-    /**
-     * Set resource service
-     */
-    public function __construct()
-    {
-        $this->blueprintsService = Service::singleton();
-        $this->getServiceManager()->propagate($this->blueprintsService);
-    }
+    use OntologyAwareTrait;
 
     /**
      * Get blueprint's data
@@ -57,22 +48,22 @@ class Editor extends \tao_actions_CommonModule
                     'property' => false
                 ];
 
-                $property = $this->blueprintsService->getBlueprintTargetProperty($uri);
+                $property = $this->getBlueprintsService()->getBlueprintTargetProperty($uri);
                 if(!is_null($property) ){
                     $blueprintData['property'] = [
                         'label' => $property->getLabel(),
                         'uri'   => $property->getUri()
                     ];
                 }
-                $matrix = $this->blueprintsService->getBlueprintMatrix($uri);
+                $matrix = $this->getBlueprintsService()->getBlueprintMatrix($uri);
                 foreach( $matrix as $resourceUri => $value){
-                    $resource = new \core_kernel_classes_Resource($resourceUri);
+                    $resource = $this->getResource($resourceUri);
                     $blueprintData['selection'][$resourceUri] = [
                         'label' => $resource->getLabel(),
                         'value' => $value
                     ];
                 }
-                $blueprintData['availableProperties'] = $this->blueprintsService->getNonLiteralItemProperties();
+                $blueprintData['availableProperties'] = $this->getBlueprintsService()->getNonLiteralItemProperties();
 
                 return $this->returnSuccess($blueprintData);
             }
@@ -88,10 +79,9 @@ class Editor extends \tao_actions_CommonModule
         if($this->hasRequestParameter('uri')) {
             $uri = $this->getRequestParameter('uri');
 
-            if (! empty($uri)){
-
+            if (!empty($uri)){
                 try {
-                    $matrix = $this->blueprintsService->getTargetPropertyMatrix($uri);
+                    $matrix = $this->getBlueprintsService()->getTargetPropertyMatrix($uri);
                     return $this->returnSuccess($matrix);
                 } catch(\common_exception_NotFound $nfe) {
                     $this->returnEmpty();
@@ -116,12 +106,12 @@ class Editor extends \tao_actions_CommonModule
                     $matrix[$propUri] = $value['value'];
                 }
 
-                $report = $this->blueprintsService->saveBlueprintTargetPorperty($uri, $values['property']['uri']);
+                $report = $this->getBlueprintsService()->saveBlueprintTargetPorperty($uri, $values['property']['uri']);
                 if($report->getType() != \common_report_Report::TYPE_SUCCESS){
                     return $this->returnFailure($report->getMessage(), 412);
                 }
 
-                $report = $this->blueprintsService->saveBlueprintsMatrix($uri, $matrix);
+                $report = $this->getBlueprintsService()->saveBlueprintsMatrix($uri, $matrix);
                 if($report->getType() != \common_report_Report::TYPE_SUCCESS){
                     return $this->returnFailure($report->getMessage(), 412);
                 }
@@ -167,4 +157,13 @@ class Editor extends \tao_actions_CommonModule
             'errorMsg' => $message
         ], $code);
     }
+
+    /**
+     * @return Service
+     */
+    protected function getBlueprintsService()
+    {
+        return $this->propagate(Service::singleton());
+    }
+
 }
