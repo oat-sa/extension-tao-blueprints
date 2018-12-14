@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
-"Project-Id-Version: TAO 3.2.0-sprint39\n"
-"PO-Revision-Date: 2016-12-01T09:33:10\n"
+"Project-Id-Version: TAO 3.3.0-sprint91\n"
+"PO-Revision-Date: 2018-12-14T14:49:11\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: en-US\n"
@@ -12,6 +12,12 @@ msgstr ""
 "X-Poedit-Basepath: ../../\n"
 "X-Poedit-KeywordsList: __\n"
 "X-Poedit-SearchPath-0: .\n"
+
+msgid "A blueprint need to be selected first"
+msgstr ""
+
+msgid "A blueprint need values"
+msgstr ""
 
 #, tao-public
 msgid "Blueprint"
@@ -26,6 +32,12 @@ msgstr ""
 msgid "Blueprint saved"
 msgstr ""
 
+msgid "Blueprint successfully saved."
+msgstr ""
+
+msgid "Blueprint target property successfully saved."
+msgstr ""
+
 #, tao-public
 msgid "Blueprints"
 msgstr ""
@@ -34,7 +46,7 @@ msgstr ""
 msgid "Blueprints library"
 msgstr ""
 
-msgid "Class saved"
+msgid "Class schema saved"
 msgstr ""
 
 #, tao-public
@@ -44,7 +56,23 @@ msgstr ""
 msgid "Edit Blueprint"
 msgstr ""
 
-msgid "Edit blueprint class"
+msgid "Edit blueprint class schema"
+msgstr ""
+
+msgid "Error on saving blueprint content."
+msgstr ""
+
+msgid "has no resources."
+msgstr ""
+
+msgid "Impossible to delete a blueprint in use into test"
+msgstr ""
+
+#, tao-public
+msgid "Manage Schema"
+msgstr ""
+
+msgid "Matrix is not correctly set."
 msgstr ""
 
 #, tao-public
@@ -59,6 +87,15 @@ msgstr ""
 msgid "New class"
 msgstr ""
 
+msgid "No eligible property"
+msgstr ""
+
+msgid "No property defined, please select a property."
+msgstr ""
+
+msgid "Please select a property"
+msgstr ""
+
 #, tao-public
 msgid "Properties"
 msgstr ""
@@ -66,7 +103,22 @@ msgstr ""
 msgid "Requested property does not exists."
 msgstr ""
 
+msgid "Save"
+msgstr ""
+
+msgid "Target Property"
+msgstr ""
+
+msgid "The property is not found or inacurrate"
+msgstr ""
+
 msgid "Unable to find associate content for this blueprint."
+msgstr ""
+
+msgid "Unable to find blueprint to save matrix."
+msgstr ""
+
+msgid "Unable to find target property."
 msgstr ""
 
 msgid "Wrong request mode"

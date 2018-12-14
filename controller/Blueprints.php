@@ -1,27 +1,25 @@
 <?php
-/**  
+/**
  * This program is free software; you can redistribute it and/or
  * modify it under the terms of the GNU General Public License
  * as published by the Free Software Foundation; under version 2
  * of the License (non-upgradable).
- * 
+ *
  * This program is distributed in the hope that it will be useful,
  * but WITHOUT ANY WARRANTY; without even the implied warranty of
  * MERCHANTABILITY or FITNESS FOR A PARTICULAR PURPOSE.  See the
  * GNU General Public License for more details.
- * 
+ *
  * You should have received a copy of the GNU General Public License
  * along with this program; if not, write to the Free Software
  * Foundation, Inc., 51 Franklin Street, Fifth Floor, Boston, MA  02110-1301, USA.
- * 
- * Copyright (c) 2016 (original work) Open Assessment Technologies SA;
- *               
- * 
+ *
+ * Copyright (c) 2016-2018 (original work) Open Assessment Technologies SA;
+ *
  */
 
 namespace oat\taoBlueprints\controller;
 
-use oat\generis\model\OntologyAwareTrait;
 use oat\taoBlueprints\model\Service;
 use oat\taoBlueprints\model\TestSectionLinkService;
 
@@ -35,32 +33,6 @@ use oat\taoBlueprints\model\TestSectionLinkService;
  */
 class Blueprints extends \tao_actions_RdfController
 {
-    use OntologyAwareTrait;
-
-    /** @var TestSectionLinkService  $testSectionLinkService */
-    private $testSectionLinkService = null;
-
-    /**
-     * Blueprints constructor.
-     * Set resource service
-     */
-    public function __construct()
-    {
-        $this->service = Service::singleton();
-        $this->testSectionLinkService = $this->getServiceManager()->get(TestSectionLinkService::SERVICE_ID);
-        $this->getServiceManager()->propagate($this->service);
-    }
-
-    /**
-     * Get the root class of blueprint
-     *
-     * @return \core_kernel_classes_Class
-     */
-    protected function getRootClass()
-    {
-        return $this->getClassService()->getRootClass();
-    }
-
     /**
      * Create a new instance of blueprint class with unique label
      *
@@ -68,7 +40,7 @@ class Blueprints extends \tao_actions_RdfController
      */
     public function create()
     {
-        if(! \tao_helpers_Request::isAjax()){
+        if(!$this->isXmlHttpRequest()){
             throw new \Exception(__("Wrong request mode"));
         }
 
@@ -162,7 +134,7 @@ class Blueprints extends \tao_actions_RdfController
      */
     public function getBlueprintsByIdentifier()
     {
-        if (!\tao_helpers_Request::isAjax()) {
+        if (!$this->isXmlHttpRequest()) {
             throw new \common_exception_IsAjaxAction(__FUNCTION__);
         }
 
@@ -186,7 +158,7 @@ class Blueprints extends \tao_actions_RdfController
     public function getBlueprintsByTestSection()
     {
         $returnValue = [];
-        if (!\tao_helpers_Request::isAjax()) {
+        if (!$this->isXmlHttpRequest()) {
             throw new \common_exception_IsAjaxAction(__FUNCTION__);
         }
 
@@ -198,12 +170,34 @@ class Blueprints extends \tao_actions_RdfController
             throw new \common_exception_MissingParameter('section');
         }
 
-        $blueprint = $this->testSectionLinkService->getBlueprintByTestSection($this->getRequestParameter('test'), $this->getRequestParameter('section'));
+        $blueprint = $this->getServiceLocator()->get(TestSectionLinkService::SERVICE_ID)
+            ->getBlueprintByTestSection($this->getRequestParameter('test'), $this->getRequestParameter('section'));
 
         if(!empty($blueprint)){
             $returnValue = ['text' => $blueprint->getLabel(), 'uri' => $blueprint->getUri()];
         }
         $this->returnJson($returnValue);
+    }
+
+    /**
+     * @return Service
+     */
+    protected function getClassService()
+    {
+        if (is_null($this->service)) {
+            $this->service = $this->propagate(Service::singleton());
+        }
+        return $this->service;
+    }
+
+    /**
+     * Get the root class of blueprint
+     *
+     * @return \core_kernel_classes_Class
+     */
+    protected function getRootClass()
+    {
+        return $this->getClassService()->getRootClass();
     }
 
 }
