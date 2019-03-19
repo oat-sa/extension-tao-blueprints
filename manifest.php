@@ -27,10 +27,10 @@ return array(
     'label'       => 'Blueprints Extension',
     'description' => 'Extension to manage Test Blueprints',
     'license'     => 'GPL-2.0',
-    'version'     => '2.1.1',
+    'version'     => '2.2.0',
     'author'      => 'Open Assessment Technologies SA',
     'requires' => [
-        'tao' => '>=21.15.0'
+        'tao' => '>=30.0.0'
     ],
     'managementRole' => 'http://www.tao.lu/Ontologies/generis.rdf#taoBlueprintsManager',
     'acl' => array(
