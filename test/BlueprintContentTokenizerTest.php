@@ -29,7 +29,7 @@ class BlueprintContentTokenizerTest extends TaoPhpUnitTestRunner
 {
     public function testGetStrings()
     {
-        $fileStorageMock = $this->getMock(JsonStorage::class, ['getContent'], [], '', false);
+        $fileStorageMock = $this->createMock(JsonStorage::class, ['getContent'], [], '', false);
         $fileStorageMock->expects($this->once())
             ->method('getContent')
             ->willReturn(
@@ -39,16 +39,16 @@ class BlueprintContentTokenizerTest extends TaoPhpUnitTestRunner
                 ]
             );
 
-        $targetPropertyMock = $this->getMock(\core_kernel_classes_Resource::class, ['getLabel'], [], '', false);
+        $targetPropertyMock = $this->createMock(\core_kernel_classes_Resource::class, ['getLabel'], [], '', false);
         $targetPropertyMock->expects($this->once())->method('getLabel')->willReturn('label-property');
 
-        $resourceMock1 = $this->getMock(\core_kernel_classes_Resource::class, ['getLabel'], [], '', false);
+        $resourceMock1 = $this->createMock(\core_kernel_classes_Resource::class, ['getLabel'], [], '', false);
         $resourceMock1->expects($this->once())->method('getLabel')->willReturn('label1');
 
-        $resourceMock2 = $this->getMock(\core_kernel_classes_Resource::class, ['getLabel'], [], '', false);
+        $resourceMock2 = $this->createMock(\core_kernel_classes_Resource::class, ['getLabel'], [], '', false);
         $resourceMock2->expects($this->once())->method('getLabel')->willReturn('label2');
 
-        $tokenizerMock = $this->getMock(BlueprintContentTokenizer::class, ['getFileStorage', 'getResource']);
+        $tokenizerMock = $this->createMock(BlueprintContentTokenizer::class, ['getFileStorage', 'getResource']);
         $tokenizerMock->expects($this->once())
             ->method('getFileStorage')
             ->willReturn($fileStorageMock);
@@ -64,12 +64,12 @@ class BlueprintContentTokenizerTest extends TaoPhpUnitTestRunner
 
     public function testGetStringsWithnoContent()
     {
-        $fileStorageMock = $this->getMock(JsonStorage::class, ['getContent'], [], '', false);
+        $fileStorageMock = $this->createMock(JsonStorage::class, ['getContent'], [], '', false);
         $fileStorageMock->expects($this->once())
             ->method('getContent')
             ->willReturn([]);
 
-        $tokenizerMock = $this->getMock(BlueprintContentTokenizer::class, ['getFileStorage']);
+        $tokenizerMock = $this->createMock(BlueprintContentTokenizer::class, ['getFileStorage']);
         $tokenizerMock->expects($this->once())
             ->method('getFileStorage')
             ->willReturn($fileStorageMock);
