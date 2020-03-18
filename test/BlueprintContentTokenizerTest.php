@@ -21,6 +21,7 @@
 
 namespace oat\taoBlueprints\test;
 
+use core_kernel_classes_Resource;
 use oat\tao\test\TaoPhpUnitTestRunner;
 use oat\taoBlueprints\model\search\BlueprintContentTokenizer;
 use oat\taoBlueprints\model\storage\implementation\JsonStorage;
@@ -29,26 +30,41 @@ class BlueprintContentTokenizerTest extends TaoPhpUnitTestRunner
 {
     public function testGetStrings()
     {
-        $fileStorageMock = $this->getMock(JsonStorage::class, ['getContent'], [], '', false);
+        $fileStorageMock = $this->getMockBuilder(JsonStorage::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getContent'])
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->getMock();
         $fileStorageMock->expects($this->once())
             ->method('getContent')
             ->willReturn(
                 [
-                    'property' => 'aaa',
-                    'selection' => ['test1', 'test2']
+                    'property'  => 'aaa',
+                    'selection' => [
+                        'uri1' => 'test1',
+                        'uri2' => 'test2'
+                    ]
                 ]
             );
 
-        $targetPropertyMock = $this->getMock(\core_kernel_classes_Resource::class, ['getLabel'], [], '', false);
+
+        $targetPropertyMock = $this->getResourceMock();
         $targetPropertyMock->expects($this->once())->method('getLabel')->willReturn('label-property');
 
-        $resourceMock1 = $this->getMock(\core_kernel_classes_Resource::class, ['getLabel'], [], '', false);
+        $resourceMock1 = $this->getResourceMock();
         $resourceMock1->expects($this->once())->method('getLabel')->willReturn('label1');
 
-        $resourceMock2 = $this->getMock(\core_kernel_classes_Resource::class, ['getLabel'], [], '', false);
+        $resourceMock2 = $this->getResourceMock();
         $resourceMock2->expects($this->once())->method('getLabel')->willReturn('label2');
 
-        $tokenizerMock = $this->getMock(BlueprintContentTokenizer::class, ['getFileStorage', 'getResource']);
+
+        $tokenizerMock = $this->getMockBuilder(BlueprintContentTokenizer::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getFileStorage', 'getResource'])
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->getMock();
         $tokenizerMock->expects($this->once())
             ->method('getFileStorage')
             ->willReturn($fileStorageMock);
@@ -58,22 +74,43 @@ class BlueprintContentTokenizerTest extends TaoPhpUnitTestRunner
 
         $this->assertEquals(
             ['label-property', 'label1', 'label2'],
-            $tokenizerMock->getStrings(new \core_kernel_classes_Resource('unit-resource'))
+            $tokenizerMock->getStrings(new core_kernel_classes_Resource('unit-resource'))
         );
     }
 
     public function testGetStringsWithnoContent()
     {
-        $fileStorageMock = $this->getMock(JsonStorage::class, ['getContent'], [], '', false);
+
+        $fileStorageMock = $this->getMockBuilder(JsonStorage::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getContent'])
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->getMock();
         $fileStorageMock->expects($this->once())
             ->method('getContent')
             ->willReturn([]);
 
-        $tokenizerMock = $this->getMock(BlueprintContentTokenizer::class, ['getFileStorage']);
+        $tokenizerMock = $this->getMockBuilder(BlueprintContentTokenizer::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getFileStorage'])
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->getMock();
         $tokenizerMock->expects($this->once())
             ->method('getFileStorage')
             ->willReturn($fileStorageMock);
 
-        $this->assertEquals([], $tokenizerMock->getStrings(new \core_kernel_classes_Resource('unit-resource')));
+        $this->assertEquals([], $tokenizerMock->getStrings(new core_kernel_classes_Resource('unit-resource')));
+    }
+
+    private function getResourceMock()
+    {
+        return $this->getMockBuilder(core_kernel_classes_Resource::class)
+            ->disableOriginalConstructor()
+            ->onlyMethods(['getLabel'])
+            ->disableOriginalClone()
+            ->disableArgumentCloning()
+            ->getMock();
     }
 }
