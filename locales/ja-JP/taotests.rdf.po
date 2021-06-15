@@ -1,0 +1,52 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: TAO 3.4.0-sprint125\n"
+"PO-Revision-Date: 2020-03-27T11:06:17\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: en-US\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: en-US\n"
+"Content-Type: text/plain; charset=utf-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+
+# http://www.taotesting.com/ontologies/blueprint.rdf#TestSectionLink
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Link"
+msgstr "リンク"
+
+# http://www.taotesting.com/ontologies/blueprint.rdf#TestSectionLink
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Link between test, section and blueprint"
+msgstr "テスト、セクション、ブループリントのリンク"
+
+# http://www.taotesting.com/ontologies/blueprint.rdf#AssociatedBlueprint
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Associated Blueprint"
+msgstr "関連するブループリント"
+
+# http://www.taotesting.com/ontologies/blueprint.rdf#AssociatedBlueprint
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Associated Blueprint"
+msgstr "関連するブループリント"
+
+# http://www.taotesting.com/ontologies/blueprint.rdf#AssociatedSection
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Section"
+msgstr "セクション"
+
+# http://www.taotesting.com/ontologies/blueprint.rdf#AssociatedSection
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Section"
+msgstr "セクション"
+
+# http://www.taotesting.com/ontologies/blueprint.rdf#AssociatedTest
+msgctxt "http://www.w3.org/2000/01/rdf-schema#label"
+msgid "Test"
+msgstr "テスト"
+
+# http://www.taotesting.com/ontologies/blueprint.rdf#AssociatedTest
+msgctxt "http://www.w3.org/2000/01/rdf-schema#comment"
+msgid "Test"
+msgstr "テスト"
+
