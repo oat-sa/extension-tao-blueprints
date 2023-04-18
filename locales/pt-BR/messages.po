@@ -1,7 +1,7 @@
 msgid ""
 msgstr ""
 "Project-Id-Version: TAO 2023.05\n"
-"PO-Revision-Date: 2023-04-18T13:40:48\n"
+"PO-Revision-Date: 2023-04-18T16:06:51\n"
 "Last-Translator: TAO Translation Team <translation@tao.lu>\n"
 "MIME-Version: 1.0\n"
 "Language: pt-BR\n"
@@ -51,7 +51,7 @@ msgstr ""
 
 #, tao-public
 msgid "Delete"
-msgstr "Excluir"
+msgstr ""
 
 msgid "Edit Blueprint"
 msgstr ""
@@ -104,7 +104,7 @@ msgid "Requested property does not exists."
 msgstr ""
 
 msgid "Save"
-msgstr "Salvar"
+msgstr ""
 
 msgid "Target Property"
 msgstr ""
