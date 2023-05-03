@@ -111,7 +111,7 @@ msgid "Requested property does not exists."
 msgstr "A propriedade solicitada não existe."
 
 msgid "Save"
-msgstr "Guardar"
+msgstr "Salvar"
 
 msgid "Target Property"
 msgstr "Target Property"
