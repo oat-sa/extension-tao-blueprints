@@ -1,0 +1,133 @@
+msgid ""
+msgstr ""
+"Project-Id-Version: tao-3x\n"
+"PO-Revision-Date: 2023-04-21 15:46\n"
+"Last-Translator: TAO Translation Team <translation@tao.lu>\n"
+"MIME-Version: 1.0\n"
+"Language: pt\n"
+"sourceLanguage: en-US\n"
+"targetLanguage: pt-BR\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"X-Poedit-Basepath: ../../\n"
+"X-Poedit-KeywordsList: __\n"
+"X-Poedit-SearchPath-0: .\n"
+"Plural-Forms: nplurals=2; plural=(n != 1);\n"
+"X-Crowdin-Project: tao-3x\n"
+"X-Crowdin-Project-ID: 582145\n"
+"X-Crowdin-Language: pt-BR\n"
+"X-Crowdin-File: /taoBlueprints/locales/pt-BR/messages.po\n"
+"X-Crowdin-File-ID: 1881\n"
+"Language-Team: Portuguese, Brazilian\n"
+
+msgid "A blueprint need to be selected first"
+msgstr "O diagrama precisa ser selecionado primeiro"
+
+msgid "A blueprint need values"
+msgstr "Um diagrama precisa de valores"
+
+#, tao-public
+msgid "Blueprint"
+msgstr "Planta"
+
+msgid "Blueprint found, but it\\'s not correctly formed. Property key missing."
+msgstr "Diagrama encontrado, mas não formatado corretamente. Chave de propriedade faltando."
+
+msgid "Blueprint found, but it\\'s not correctly formed. Selection key missing."
+msgstr "Diagrama encontrado, mas não formatado corretamente. Falta a tecla de seleção."
+
+msgid "Blueprint saved"
+msgstr "Diagrama salvo"
+
+msgid "Blueprint successfully saved."
+msgstr "Projeto salvo com sucesso."
+
+msgid "Blueprint target property successfully saved."
+msgstr "Propriedade alvo de Diagrama salva com sucesso."
+
+#, tao-public
+msgid "Blueprints"
+msgstr "Diagramas"
+
+#, tao-public
+msgid "Blueprints library"
+msgstr "Biblioteca de Diagramas"
+
+msgid "Class schema saved"
+msgstr "Esquema de classe salvo"
+
+#, tao-public
+msgid "Delete"
+msgstr "excluir"
+
+msgid "Edit Blueprint"
+msgstr "Editar Diagrama"
+
+msgid "Edit blueprint class schema"
+msgstr "Editar esquema de classe de plantas"
+
+msgid "Error on saving blueprint content."
+msgstr "Erro ao salvar conteúdo de diagramas."
+
+msgid "has no resources."
+msgstr "não tem recursos."
+
+msgid "Impossible to delete a blueprint in use into test"
+msgstr "Impossível excluir um diagrama em uso no teste"
+
+#, tao-public
+msgid "Manage Schema"
+msgstr "Gerenciar esquema"
+
+msgid "Matrix is not correctly set."
+msgstr "Matriz não foi definida corretamente."
+
+#, tao-public
+msgid "Move"
+msgstr "Mover-se"
+
+#, tao-public
+msgid "New blueprint"
+msgstr "Novo diagrama"
+
+#, tao-public
+msgid "New class"
+msgstr "Nova classe"
+
+msgid "No eligible property"
+msgstr "Nenhuma propriedade elegível"
+
+msgid "No property defined, please select a property."
+msgstr "Nenhuma propriedade definida, selecione uma propriedade."
+
+msgid "Please select a property"
+msgstr "Por favor, selecione uma propriedade"
+
+#, tao-public
+msgid "Properties"
+msgstr "propriedades"
+
+msgid "Requested property does not exists."
+msgstr "A propriedade solicitada não existe."
+
+msgid "Save"
+msgstr "Salvar"
+
+msgid "Target Property"
+msgstr "Target Property"
+
+msgid "The property is not found or inacurrate"
+msgstr "A propriedade não é encontrada ou não é inacurrate"
+
+msgid "Unable to find associate content for this blueprint."
+msgstr "Não foi possível encontrar o conteúdo associado para este projeto."
+
+msgid "Unable to find blueprint to save matrix."
+msgstr "Não foi possível encontrar o projeto para salvar a matriz."
+
+msgid "Unable to find target property."
+msgstr "Não foi possível encontrar a propriedade de destino."
+
+msgid "Wrong request mode"
+msgstr "Modo de requisição errado"
+
