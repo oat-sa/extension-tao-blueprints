@@ -97,7 +97,7 @@ define([
                     };
                     this.config.data.selection = selection;
 
-                    distributor = distributorComponent($distributorContainer, _.pick(this.config, ['data']))
+                    distributor = distributorComponent($distributorContainer, _.pickBy(this.config, ['data']))
                     .on('render', function(){
                         self.enable();
 
@@ -116,7 +116,7 @@ define([
              * @returns {Object} the values with the selected property and the selection.
              */
             getValues : function getValues() {
-                var values = _.pick(this.config.data, ['selection', 'property']);
+                var values = _.pickBy(this.config.data, ['selection', 'property']);
                 if(distributor){
                     values.selection = distributor.getValues();
                 }
@@ -136,7 +136,7 @@ define([
                 $distributorContainer      = $('.distributor-container', $component);
                 $propertySelectorContainer = $('.property-selector-container', $component);
 
-                distributor = distributorComponent($distributorContainer, _.pick(config, 'data'));
+                distributor = distributorComponent($distributorContainer, _.pickBy(config, 'data'));
                 selector = propertySelectorComponent($propertySelectorContainer, {
                     uri:   config.data.property.uri,
                     label: config.data.property.label,
