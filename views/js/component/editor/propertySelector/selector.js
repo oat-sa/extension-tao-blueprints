@@ -38,7 +38,7 @@ define([
      */
     var buildTree = function buildTree(data){
         var nodeToListItem = function nodeToListItem(acc , node){
-            var item = _.pickBy(node, ['uri', 'label']);
+            var item = _.pick(node, ['uri', 'label']);
             if(node.children && node.children.length){
                 item.childList = _.reduce(node.children, nodeToListItem, '');
             }
