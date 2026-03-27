@@ -19,13 +19,13 @@
 				<action id="blueprint-new" name="New blueprint" url="/taoBlueprints/Blueprints/create" context="resource" group="tree" binding="instanciate" weight="1">
 					<icon id="icon-item"/>
 				</action>
-				<action id="blueprint-class-properties" name="Properties" url="/taoBlueprints/Blueprints/editClassLabel" group="content" context="class" weight="10">
+				<action id="blueprint-class-properties" name="Properties" url="/taoBlueprints/Blueprints/editClassLabel" group="content" context="class" weight="1">
 					<icon id="icon-edit"/>
 				</action>
-				<action id="blueprint-class-schema" name="Manage Schema" url="/taoBlueprints/Blueprints/editBlueprintClass" group="content" context="class" weight="3">
+				<action id="blueprint-class-schema" name="Manage Schema" url="/taoBlueprints/Blueprints/editBlueprintClass" group="content" context="class" weight="8">
 					<icon id="icon-property-add"/>
 				</action>
-				<action id="blueprint-properties" name="Properties"  url="/taoBlueprints/Blueprints/editInstance" group="content" context="instance" weight="10">
+				<action id="blueprint-properties" name="Properties"  url="/taoBlueprints/Blueprints/editInstance" group="content" context="instance" weight="1">
 					<icon id="icon-edit"/>
 				</action>
 				<action id="blueprint-class-new" name="New class" url="/taoBlueprints/Blueprints/addSubClass" context="resource" group="tree" binding="subClass" weight="10">
